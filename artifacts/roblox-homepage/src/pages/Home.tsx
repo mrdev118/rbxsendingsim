@@ -49,8 +49,10 @@ function PackageRow({
       data-testid={`row-package-${pkg.id}`}
       className="w-full flex items-center justify-between px-5 py-4 text-left transition-colors"
       style={{
-        background: selected ? "rgba(1,178,175,0.1)" : "#191A1F",
+        background: "#191A1F",
         borderTop: isFirst ? "none" : "1px solid rgba(255,255,255,0.06)",
+        outline: selected ? "2px solid rgba(255,255,255,0.15)" : "none",
+        outlineOffset: "-2px",
       }}
     >
       <div className="flex items-center gap-3">
@@ -91,7 +93,7 @@ function PackageRow({
           padding: "8px 0",
           width: "160px",
           borderRadius: "10px",
-          background: selected ? "#01b2af" : "#2a2d38",
+          background: "#2a2d38",
           color: "#fff",
           flexShrink: 0,
           marginLeft: "16px",
@@ -173,18 +175,18 @@ export default function Home() {
       </div>
 
       {/* Balance + Send pill — absolute on page, scrolls with content */}
-      <div className="select-none" style={{ position: "absolute", top: "78px", right: "16px", zIndex: 10 }}>
+      <div className="select-none" style={{ position: "absolute", top: "78px", right: "60px", zIndex: 10 }}>
         <div
-          className="flex items-center gap-2 rounded-full px-2 py-1.5"
+          className="flex items-center gap-2 rounded-full px-3 py-2"
           style={{ background: "#1e1f23", border: "1px solid rgba(255,255,255,0.1)" }}
         >
-          <div className="flex items-center gap-1.5 pl-1 pr-1">
-            <RobuxCoin size={20} />
-            <span style={{ fontSize: "15px", fontWeight: 800, letterSpacing: "-0.02em" }}>{balance.toLocaleString()}</span>
+          <div className="flex items-center gap-2 pl-1 pr-1">
+            <RobuxCoin size={24} />
+            <span style={{ fontSize: "18px", fontWeight: 800, letterSpacing: "-0.02em" }}>{balance.toLocaleString()}</span>
           </div>
           <button
-            className="flex items-center gap-1.5 px-3 py-1 hover:brightness-125 transition-all"
-            style={{ borderRadius: "10px", background: "#2e3039", color: "#fff", fontSize: "13px", fontWeight: 700 }}
+            className="flex items-center gap-1.5 px-4 py-1.5 hover:brightness-125 transition-all"
+            style={{ borderRadius: "10px", background: "#2e3039", color: "#fff", fontSize: "14px", fontWeight: 700 }}
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
