@@ -201,6 +201,25 @@ export default function Home() {
       {/* Page content */}
       <main className="max-w-2xl mx-auto px-6 pt-4 pb-16">
 
+        {/* Faded curvy graph background */}
+        <div style={{ position: "absolute", top: "70px", left: 0, right: 0, height: "380px", pointerEvents: "none", overflow: "hidden" }}>
+          <div
+            style={{
+              position: "absolute",
+              inset: "-100px -200px",
+              backgroundImage: `
+                linear-gradient(rgba(255,255,255,0.13) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.13) 1px, transparent 1px)
+              `,
+              backgroundSize: "60px 60px",
+              transform: "perspective(500px) rotateX(45deg) scaleY(1.4)",
+              transformOrigin: "50% 0%",
+              maskImage: "radial-gradient(ellipse 90% 70% at 50% 10%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 80%)",
+              WebkitMaskImage: "radial-gradient(ellipse 90% 70% at 50% 10%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 80%)",
+            }}
+          />
+        </div>
+
         {/* Heading */}
         <motion.h1
           initial={{ opacity: 0, y: 16 }}
