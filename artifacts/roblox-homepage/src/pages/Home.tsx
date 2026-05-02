@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import robuxIconSrc from "@assets/8ab2a18d6e954f6b10bad7c36d0ce231-removebg-preview_1777752219611.png";
 import bonusCardSrc from "@assets/image_1777752547366.png";
@@ -116,6 +116,29 @@ export default function Home() {
   const [justBought, setJustBought] = useState<number | null>(null);
   const [sendOpen, setSendOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<{ id: number; name: string; displayName: string; avatarUrl?: string }[]>([]);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    if (!searchQuery.trim()) { setSearchResults([]); return; }
+    debounceRef.current = setTimeout(async () => {
+      setSearchLoading(true);
+      try {
+        const res = await fetch(`/api/roblox/search?q=${encodeURIComponent(searchQuery)}`);
+        const json = await res.json() as { data: { id: number; name: string; displayName: string }[] };
+        const users = json.data ?? [];
+        if (users.length === 0) { setSearchResults([]); setSearchLoading(false); return; }
+        const ids = users.map(u => u.id).join(",");
+        const avatarRes = await fetch(`/api/roblox/avatars?userIds=${encodeURIComponent(ids)}`);
+        const avatarJson = await avatarRes.json() as { data: { targetId: number; imageUrl: string }[] };
+        const avatarMap = Object.fromEntries((avatarJson.data ?? []).map(a => [a.targetId, a.imageUrl]));
+        setSearchResults(users.map(u => ({ ...u, avatarUrl: avatarMap[u.id] })));
+      } catch { setSearchResults([]); }
+      setSearchLoading(false);
+    }, 350);
+  }, [searchQuery]);
 
   const ALL_PACKAGES = [...PREMIUM_PACKAGES, ...BASIC_PACKAGES];
 
@@ -393,8 +416,34 @@ export default function Home() {
                 outline: "none",
               }}
             />
-            {/* Results area */}
-            <div style={{ height: "160px" }} />
+            {/* Results */}
+            <div style={{ minHeight: "120px", marginTop: "6px" }}>
+              {searchLoading && (
+                <div style={{ padding: "20px 0", textAlign: "center", color: "rgba(255,255,255,0.3)", fontSize: "12px" }}>Searching...</div>
+              )}
+              {!searchLoading && searchQuery.trim() && searchResults.length === 0 && (
+                <div style={{ padding: "20px 0", textAlign: "center", color: "rgba(255,255,255,0.3)", fontSize: "12px" }}>No players found</div>
+              )}
+              {!searchLoading && searchResults.map((user, i) => (
+                <div
+                  key={user.id}
+                  className="flex items-center gap-3 px-2 py-2.5 rounded-lg hover:bg-white/5 cursor-pointer transition-colors"
+                  style={{ borderTop: i > 0 ? "1px solid rgba(255,255,255,0.05)" : "none" }}
+                >
+                  {user.avatarUrl ? (
+                    <img src={user.avatarUrl} alt={user.name} style={{ width: 36, height: 36, borderRadius: "50%", flexShrink: 0, background: "#2a2d38" }} />
+                  ) : (
+                    <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#2a2d38", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: 700 }}>
+                      {user.displayName[0]}
+                    </div>
+                  )}
+                  <div>
+                    <div style={{ fontSize: "13px", fontWeight: 700, lineHeight: 1.3 }}>{user.displayName}</div>
+                    <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.45)", lineHeight: 1.3 }}>@{user.name}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </motion.div>
         </motion.div>
       )}
