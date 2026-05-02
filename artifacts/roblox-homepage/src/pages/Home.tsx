@@ -267,7 +267,7 @@ export default function Home() {
           <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} className="mt-4">
             <button
               className="w-full py-4 rounded-xl font-black hover:opacity-90 transition-opacity"
-              style={{ background: "#01b2af", fontSize: "17px" }}
+              style={{ background: "#2a2d38", fontSize: "17px" }}
               data-testid="button-buy"
               onClick={handleBuy}
             >
