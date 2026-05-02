@@ -201,31 +201,56 @@ export default function Home() {
       {/* Page content */}
       <main className="max-w-2xl mx-auto px-6 pt-4 pb-16">
 
-        {/* Faded curvy graph background */}
-        <div style={{ position: "absolute", top: "70px", left: 0, right: 0, height: "380px", pointerEvents: "none", overflow: "hidden" }}>
-          <div
-            style={{
-              position: "absolute",
-              inset: "-100px -200px",
-              backgroundImage: `
-                linear-gradient(rgba(255,255,255,0.13) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.13) 1px, transparent 1px)
-              `,
-              backgroundSize: "60px 60px",
-              transform: "perspective(500px) rotateX(45deg) scaleY(1.4)",
-              transformOrigin: "50% 0%",
-              maskImage: `
-                linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%),
-                linear-gradient(to bottom, black 0%, black 50%, transparent 100%)
-              `,
-              WebkitMaskImage: `
-                linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%),
-                linear-gradient(to bottom, black 0%, black 50%, transparent 100%)
-              `,
-              maskComposite: "intersect",
-              WebkitMaskComposite: "destination-in",
-            }}
-          />
+        {/* Faded curvy mesh background — upper-right */}
+        <div
+          style={{
+            position: "absolute",
+            top: "70px",
+            right: 0,
+            width: "55%",
+            height: "320px",
+            pointerEvents: "none",
+            overflow: "hidden",
+            maskImage: "radial-gradient(ellipse 85% 75% at 90% 10%, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%)",
+            WebkitMaskImage: "radial-gradient(ellipse 85% 75% at 90% 10%, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%)",
+          }}
+        >
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 560 320"
+            preserveAspectRatio="xMidYMid slice"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            {/* Horizontal wavy lines */}
+            {Array.from({ length: 14 }, (_, i) => {
+              const y = i * 24;
+              const w = 4;
+              return (
+                <path
+                  key={`h${i}`}
+                  d={`M -20 ${y} C 140 ${y + w} 280 ${y - w} 420 ${y + w} S 560 ${y} 580 ${y}`}
+                  stroke="rgba(255,255,255,0.18)"
+                  strokeWidth="0.7"
+                  fill="none"
+                />
+              );
+            })}
+            {/* Vertical wavy lines */}
+            {Array.from({ length: 16 }, (_, i) => {
+              const x = i * 36;
+              const w = 4;
+              return (
+                <path
+                  key={`v${i}`}
+                  d={`M ${x} -10 C ${x + w} 80 ${x - w} 160 ${x + w} 240 S ${x} 320 ${x} 340`}
+                  stroke="rgba(255,255,255,0.18)"
+                  strokeWidth="0.7"
+                  fill="none"
+                />
+              );
+            })}
+          </svg>
         </div>
 
         {/* Heading */}
