@@ -214,8 +214,16 @@ export default function Home() {
               backgroundSize: "60px 60px",
               transform: "perspective(500px) rotateX(45deg) scaleY(1.4)",
               transformOrigin: "50% 0%",
-              maskImage: "radial-gradient(ellipse 90% 70% at 50% 10%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 80%)",
-              WebkitMaskImage: "radial-gradient(ellipse 90% 70% at 50% 10%, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 80%)",
+              maskImage: `
+                linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%),
+                linear-gradient(to bottom, black 0%, black 50%, transparent 100%)
+              `,
+              WebkitMaskImage: `
+                linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%),
+                linear-gradient(to bottom, black 0%, black 50%, transparent 100%)
+              `,
+              maskComposite: "intersect",
+              WebkitMaskComposite: "destination-in",
             }}
           />
         </div>
