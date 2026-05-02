@@ -113,7 +113,7 @@ export default function Home() {
   return (
     <div
       className="min-h-screen w-full text-white"
-      style={{ background: "#121215", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+      style={{ background: "#121215", fontFamily: "'Plus Jakarta Sans', sans-serif", position: "relative" }}
       data-testid="page-robux"
     >
       {/* ── Windows title bar ── */}
@@ -154,8 +154,8 @@ export default function Home() {
         <div style={{ width: "24px" }} />
       </div>
 
-      {/* Balance + Send pill — fixed to very right of page */}
-      <div className="select-none" style={{ position: "fixed", top: "78px", right: "16px", zIndex: 50 }}>
+      {/* Balance + Send pill — absolute on page, scrolls with content */}
+      <div className="select-none" style={{ position: "absolute", top: "78px", right: "16px", zIndex: 10 }}>
         <div
           className="flex items-center gap-2 rounded-full px-2 py-1.5"
           style={{ background: "#1e1f23", border: "1px solid rgba(255,255,255,0.1)" }}
