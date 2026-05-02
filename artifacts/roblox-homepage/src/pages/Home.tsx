@@ -224,29 +224,29 @@ export default function Home() {
             xmlns="http://www.w3.org/2000/svg"
           >
             {/* Horizontal wavy lines */}
-            {Array.from({ length: 14 }, (_, i) => {
-              const y = i * 24;
-              const w = 4;
+            {Array.from({ length: 26 }, (_, i) => {
+              const y = i * 13;
+              const w = 2.5;
               return (
                 <path
                   key={`h${i}`}
                   d={`M -20 ${y} C 140 ${y + w} 280 ${y - w} 420 ${y + w} S 560 ${y} 580 ${y}`}
                   stroke="rgba(255,255,255,0.18)"
-                  strokeWidth="0.7"
+                  strokeWidth="0.6"
                   fill="none"
                 />
               );
             })}
             {/* Vertical wavy lines */}
-            {Array.from({ length: 16 }, (_, i) => {
-              const x = i * 36;
-              const w = 4;
+            {Array.from({ length: 30 }, (_, i) => {
+              const x = i * 20;
+              const w = 2.5;
               return (
                 <path
                   key={`v${i}`}
                   d={`M ${x} -10 C ${x + w} 80 ${x - w} 160 ${x + w} 240 S ${x} 320 ${x} 340`}
                   stroke="rgba(255,255,255,0.18)"
-                  strokeWidth="0.7"
+                  strokeWidth="0.6"
                   fill="none"
                 />
               );
