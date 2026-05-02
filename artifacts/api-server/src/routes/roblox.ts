@@ -10,7 +10,7 @@ router.get("/roblox/search", async (req, res) => {
   }
   try {
     const r = await fetch(
-      `https://users.roblox.com/v1/users/search?keyword=${encodeURIComponent(q)}&limit=10`,
+      `https://users.roblox.com/v1/users/search?keyword=${encodeURIComponent(q)}&limit=3`,
       { headers: { "Accept": "application/json" } }
     );
     const json = await r.json() as { data?: unknown[] };

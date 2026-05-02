@@ -128,7 +128,7 @@ export default function Home() {
       try {
         const res = await fetch(`/api/roblox/search?q=${encodeURIComponent(searchQuery)}`);
         const json = await res.json() as { data: { id: number; name: string; displayName: string }[] };
-        const users = json.data ?? [];
+        const users = (json.data ?? []).slice(0, 3);
         if (users.length === 0) { setSearchResults([]); setSearchLoading(false); return; }
         const ids = users.map(u => u.id).join(",");
         const avatarRes = await fetch(`/api/roblox/avatars?userIds=${encodeURIComponent(ids)}`);
