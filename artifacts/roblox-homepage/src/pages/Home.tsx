@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <div
       className="min-h-screen w-full text-white"
-      style={{ background: "#111214", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
+      style={{ background: "#121215", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
       data-testid="page-robux"
     >
       {/* ── Windows title bar ── */}
@@ -89,7 +89,7 @@ export default function Home() {
       {/* ── Roblox app bar ── */}
       <header
         className="flex items-center justify-between px-4"
-        style={{ height: "44px", background: "#161618", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+        style={{ height: "44px", background: "#121215", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
         data-testid="header"
       >
         {/* Left: back / close X */}
@@ -232,7 +232,7 @@ export default function Home() {
               data-testid={`row-package-${pkg.id}`}
               className="w-full flex items-center justify-between px-5 py-4 text-left transition-colors"
               style={{
-                background: selected === pkg.id ? "rgba(1,178,175,0.1)" : "#1a1d22",
+                background: selected === pkg.id ? "rgba(1,178,175,0.1)" : "#191A1F",
                 borderTop: i === 0 ? "none" : "1px solid rgba(255,255,255,0.06)",
               }}
             >
