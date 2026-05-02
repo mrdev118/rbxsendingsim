@@ -166,7 +166,7 @@ export default function Home() {
 
         {/* Center: username + balance */}
         <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center" style={{ lineHeight: 1.3 }}>
-          <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>Benxxyz</span>
+          <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>Benxxyz: 13+</span>
           <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.35)" }}>Balance: {balance.toLocaleString()} Robux</span>
         </div>
 
