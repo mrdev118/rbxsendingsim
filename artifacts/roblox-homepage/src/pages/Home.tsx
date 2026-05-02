@@ -84,6 +84,7 @@ function PackageRow({
       </div>
 
       <span
+        className="transition-all duration-150 hover:brightness-125"
         style={{
           fontSize: "16px",
           fontWeight: 700,
@@ -96,6 +97,7 @@ function PackageRow({
           marginLeft: "16px",
           textAlign: "center",
           display: "inline-block",
+          cursor: "pointer",
         }}
         data-testid={`text-price-${pkg.id}`}
       >
