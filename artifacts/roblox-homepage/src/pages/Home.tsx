@@ -33,67 +33,93 @@ export default function Home() {
       style={{ background: "#111214", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
       data-testid="page-robux"
     >
-      {/* ── OS-style title bar ── */}
+      {/* ── Windows title bar ── */}
       <div
-        className="relative flex items-center justify-between px-3"
-        style={{ background: "#1a1a1a", height: "32px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+        className="relative flex items-center justify-between select-none"
+        style={{ background: "#1f1f1f", height: "30px", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
         data-testid="titlebar"
       >
-        {/* Left: close button */}
-        <button
-          className="flex items-center justify-center w-5 h-5 rounded-full transition-opacity hover:opacity-80"
-          style={{ background: "#ff5f57" }}
-          data-testid="button-close"
-          aria-label="Close"
-        >
-          <svg width="8" height="8" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-            <path d="M2 2l6 6M8 2l-6 6" stroke="#7a1a1a" strokeWidth="1.5" strokeLinecap="round"/>
-          </svg>
-        </button>
-
-        {/* Center: username + balance */}
-        <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center leading-tight">
-          <span className="text-[11px] font-semibold" style={{ color: "rgba(255,255,255,0.6)" }} data-testid="text-titlebar-username">
-            Benxxyz
-          </span>
-          <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.35)" }}>Balance: 257 Robux</span>
+        {/* Left: Roblox icon + app name */}
+        <div className="flex items-center gap-1.5 px-3 h-full">
+          <div
+            className="w-3.5 h-3.5 rounded-sm flex-shrink-0"
+            style={{ background: "#e2231a" }}
+            aria-hidden="true"
+          />
+          <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.75)", fontWeight: 400 }}>Roblox</span>
         </div>
 
-        {/* Right: min / max / close window controls */}
-        <div className="flex items-center gap-1.5">
-          <button className="flex items-center justify-center w-5 h-5 rounded-full hover:opacity-80" style={{ background: "#febc2e" }} aria-label="Minimize">
-            <svg width="8" height="2" viewBox="0 0 8 2" fill="none" aria-hidden="true"><rect width="8" height="1.5" rx="0.75" fill="#7a5400"/></svg>
+        {/* Center: username + balance */}
+        <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center" style={{ lineHeight: 1.3 }}>
+          <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.55)", fontWeight: 500 }} data-testid="text-titlebar-username">
+            Benxxyz
+          </span>
+          <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.35)" }}>Balance: 257 Robux</span>
+        </div>
+
+        {/* Right: Windows-style — □ × controls */}
+        <div className="flex items-stretch h-full">
+          <button
+            className="flex items-center justify-center hover:bg-white/10 transition-colors"
+            style={{ width: "46px", color: "rgba(255,255,255,0.7)", fontSize: "16px", lineHeight: 1 }}
+            aria-label="Minimize"
+          >
+            &#8211;
           </button>
-          <button className="flex items-center justify-center w-5 h-5 rounded-full hover:opacity-80" style={{ background: "#28c840" }} aria-label="Maximize">
-            <svg width="7" height="7" viewBox="0 0 7 7" fill="none" aria-hidden="true"><rect x="0.75" y="0.75" width="5.5" height="5.5" rx="1" stroke="#0a5a14" strokeWidth="1"/></svg>
+          <button
+            className="flex items-center justify-center hover:bg-white/10 transition-colors"
+            style={{ width: "46px", color: "rgba(255,255,255,0.7)", fontSize: "11px", lineHeight: 1 }}
+            aria-label="Restore"
+          >
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true">
+              <rect x="0.6" y="0.6" width="8.8" height="8.8"/>
+            </svg>
+          </button>
+          <button
+            className="flex items-center justify-center hover:bg-red-600 transition-colors"
+            style={{ width: "46px", color: "rgba(255,255,255,0.7)", fontSize: "14px", lineHeight: 1 }}
+            aria-label="Close"
+            data-testid="button-close"
+          >
+            ✕
           </button>
         </div>
       </div>
 
       {/* ── Roblox app bar ── */}
       <header
-        className="relative flex items-center justify-end px-6 py-2.5 border-b"
-        style={{ borderColor: "rgba(255,255,255,0.07)", background: "#111214" }}
+        className="flex items-center justify-between px-4"
+        style={{ height: "44px", background: "#161618", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
         data-testid="header"
       >
+        {/* Left: back / close X */}
+        <button
+          className="flex items-center justify-center hover:text-white/60 transition-colors"
+          style={{ color: "rgba(255,255,255,0.5)", fontSize: "16px", width: "28px", height: "28px" }}
+          aria-label="Back"
+          data-testid="button-back"
+        >
+          ✕
+        </button>
+
         {/* Right: balance pill + send */}
         <div className="flex items-center gap-2">
           <div
-            className="flex items-center gap-2 px-3 py-1.5 rounded-full"
-            style={{ background: "rgba(255,255,255,0.09)" }}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full"
+            style={{ background: "rgba(255,255,255,0.1)" }}
             data-testid="robux-balance"
           >
-            <RobuxCoin size={22} />
-            <span className="text-[15px] font-bold">257</span>
+            <RobuxCoin size={20} />
+            <span style={{ fontSize: "14px", fontWeight: 700 }}>257</span>
           </div>
           <button
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[13px] font-semibold"
-            style={{ background: "rgba(255,255,255,0.09)", color: "#fff" }}
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full transition-colors hover:bg-white/15"
+            style={{ background: "rgba(255,255,255,0.1)", color: "#fff", fontSize: "13px", fontWeight: 600 }}
             data-testid="button-send"
           >
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="12" y1="19" x2="12" y2="5"/>
+              <polyline points="5 12 12 5 19 12"/>
             </svg>
             Send
           </button>
