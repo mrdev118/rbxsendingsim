@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import robuxIconSrc from "@assets/8ab2a18d6e954f6b10bad7c36d0ce231-removebg-preview_1777752219611.png";
+import bonusCardSrc from "@assets/image_1777752547366.png";
 
 const PREMIUM_PACKAGES = [
   { id: 1, amount: 24000, oldAmount: 22500, bonus: 1500, price: "P11.49K" },
@@ -188,33 +189,14 @@ export default function Home() {
 
           <div className="rounded-xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.07)" }}>
 
-            {/* Bonus item card row */}
-            <div
-              className="flex items-center"
-              style={{ background: "#191A1F", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+            {/* Bonus item card — full image */}
+            <img
+              src={bonusCardSrc}
+              alt="Steal a Brainrot — 2x Money bonus"
               data-testid="card-bonus-item"
-            >
-              <div className="flex items-center gap-4 px-5 py-4 flex-1 min-w-0">
-                <div className="relative flex-shrink-0">
-                  <div className="w-14 h-14 rounded-xl flex items-center justify-center text-3xl" style={{ background: "#252a35" }}>
-                    💰
-                  </div>
-                  <span className="absolute -bottom-1 -right-2 text-[11px] font-black px-1.5 py-0.5 rounded" style={{ background: "#00b06f", color: "#fff" }}>x2</span>
-                </div>
-                <div className="min-w-0">
-                  <div className="flex items-center gap-1.5">
-                    <span style={{ fontSize: "15px", fontWeight: 700 }} data-testid="text-bonus-name">[🍎] Steal a Brainrot</span>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "rgba(255,255,255,0.3)", flexShrink: 0 }} aria-label="info">
-                      <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
-                    </svg>
-                  </div>
-                  <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", marginTop: "3px" }}>2x Money</p>
-                </div>
-              </div>
-              <div className="w-32 h-20 flex-shrink-0 overflow-hidden">
-                <img src="/images/game3.png" alt="Steal a Brainrot" className="w-full h-full object-cover" data-testid="img-bonus-game" />
-              </div>
-            </div>
+              className="w-full block"
+              style={{ display: "block", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+            />
 
             {/* Premium package rows */}
             {PREMIUM_PACKAGES.map((pkg, i) => (
