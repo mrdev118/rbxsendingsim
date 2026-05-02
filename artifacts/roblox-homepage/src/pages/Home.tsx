@@ -340,28 +340,28 @@ export default function Home() {
             onClick={e => e.stopPropagation()}
             style={{
               background: "#1a1b20",
-              borderRadius: "20px",
-              width: "min(500px, 90vw)",
-              padding: "32px",
+              borderRadius: "14px",
+              width: "min(310px, 90vw)",
+              padding: "20px",
               boxShadow: "0 24px 60px rgba(0,0,0,0.6)",
               border: "1px solid rgba(255,255,255,0.07)",
             }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-3">
-                <RobuxCoin size={26} />
-                <span style={{ fontSize: "22px", fontWeight: 800 }}>Send Robux</span>
+            <div className="flex items-center justify-between mb-5">
+              <div className="flex items-center gap-2">
+                <RobuxCoin size={18} />
+                <span style={{ fontSize: "16px", fontWeight: 800 }}>Send Robux</span>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <RobuxCoin size={20} />
-                  <span style={{ fontSize: "17px", fontWeight: 700 }}>{balance.toLocaleString()}</span>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1.5">
+                  <RobuxCoin size={15} />
+                  <span style={{ fontSize: "13px", fontWeight: 700 }}>{balance.toLocaleString()}</span>
                 </div>
                 <button
                   onClick={() => setSendOpen(false)}
                   className="flex items-center justify-center hover:opacity-70 transition-opacity"
-                  style={{ color: "rgba(255,255,255,0.5)", fontSize: "22px", lineHeight: 1 }}
+                  style={{ color: "rgba(255,255,255,0.5)", fontSize: "16px", lineHeight: 1 }}
                   aria-label="Close"
                 >
                   ✕
@@ -370,7 +370,7 @@ export default function Home() {
             </div>
 
             {/* Search */}
-            <p style={{ fontSize: "15px", fontWeight: 600, color: "rgba(255,255,255,0.7)", marginBottom: "12px" }}>
+            <p style={{ fontSize: "12px", fontWeight: 600, color: "rgba(255,255,255,0.7)", marginBottom: "8px" }}>
               Search by username
             </p>
             <input
@@ -383,10 +383,10 @@ export default function Home() {
                 width: "100%",
                 background: "#25262d",
                 border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: "12px",
-                padding: "16px 18px",
+                borderRadius: "8px",
+                padding: "10px 12px",
                 color: "#fff",
-                fontSize: "16px",
+                fontSize: "13px",
                 outline: "none",
               }}
             />
