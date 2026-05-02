@@ -162,8 +162,8 @@ export default function Home() {
 
           {/* Send — inner rounded box */}
           <button
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:brightness-125 transition-all"
-            style={{ background: "#2e3039", color: "#fff", fontSize: "14px", fontWeight: 700 }}
+            className="flex items-center gap-1.5 px-3 py-1.5 hover:brightness-125 transition-all"
+            style={{ borderRadius: "8px", background: "#2e3039", color: "#fff", fontSize: "14px", fontWeight: 700 }}
           >
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
