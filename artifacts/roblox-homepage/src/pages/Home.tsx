@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import robuxIconSrc from "@assets/image_1777751316017.png";
+import robuxIconSrc from "@assets/8ab2a18d6e954f6b10bad7c36d0ce231-removebg-preview_1777752219611.png";
 
 const ROBUX_PACKAGES = [
   { id: 1, amount: 24000, oldAmount: 22500, bonus: 1500, price: "P11.49K" },
