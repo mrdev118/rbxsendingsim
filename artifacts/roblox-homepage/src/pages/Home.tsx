@@ -107,8 +107,24 @@ function PackageRow({
 
 export default function Home() {
   const [selected, setSelected] = useState<number | null>(null);
+  const [balance, setBalance] = useState(257);
+  const [justBought, setJustBought] = useState<number | null>(null);
 
-  const toggle = (id: number) => setSelected(prev => (prev === id ? null : id));
+  const ALL_PACKAGES = [...PREMIUM_PACKAGES, ...BASIC_PACKAGES];
+
+  const handleSelect = (id: number) => {
+    setSelected(prev => (prev === id ? null : id));
+  };
+
+  const handleBuy = () => {
+    if (selected === null) return;
+    const pkg = ALL_PACKAGES.find(p => p.id === selected);
+    if (!pkg) return;
+    setBalance(prev => prev + pkg.amount);
+    setJustBought(pkg.id);
+    setSelected(null);
+    setTimeout(() => setJustBought(null), 1500);
+  };
 
   return (
     <div
@@ -147,7 +163,7 @@ export default function Home() {
         {/* Center: username + balance */}
         <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center" style={{ lineHeight: 1.3 }}>
           <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>Benxxyz</span>
-          <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.35)" }}>Balance: 257 Robux</span>
+          <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.35)" }}>Balance: {balance.toLocaleString()} Robux</span>
         </div>
 
         {/* Right spacer to balance the × on the left */}
@@ -162,7 +178,7 @@ export default function Home() {
         >
           <div className="flex items-center gap-1.5 pl-1 pr-1">
             <RobuxCoin size={20} />
-            <span style={{ fontSize: "15px", fontWeight: 800, letterSpacing: "-0.02em" }}>257</span>
+            <span style={{ fontSize: "15px", fontWeight: 800, letterSpacing: "-0.02em" }}>{balance.toLocaleString()}</span>
           </div>
           <button
             className="flex items-center gap-1.5 px-3 py-1 hover:brightness-125 transition-all"
@@ -217,7 +233,7 @@ export default function Home() {
                 pkg={pkg}
                 isFirst={i === 0}
                 selected={selected === pkg.id}
-                onSelect={() => toggle(pkg.id)}
+                onSelect={() => handleSelect(pkg.id)}
               />
             ))}
           </div>
@@ -236,7 +252,7 @@ export default function Home() {
                 pkg={pkg}
                 isFirst={i === 0}
                 selected={selected === pkg.id}
-                onSelect={() => toggle(pkg.id)}
+                onSelect={() => handleSelect(pkg.id)}
               />
             ))}
           </div>
@@ -249,10 +265,23 @@ export default function Home() {
               className="w-full py-4 rounded-xl font-black hover:opacity-90 transition-opacity"
               style={{ background: "#01b2af", fontSize: "17px" }}
               data-testid="button-buy"
-              onClick={() => setSelected(null)}
+              onClick={handleBuy}
             >
               Buy Robux
             </button>
+          </motion.div>
+        )}
+
+        {/* Purchase flash */}
+        {justBought !== null && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="mt-3 text-center rounded-xl py-3"
+            style={{ background: "rgba(1,178,175,0.15)", border: "1px solid rgba(1,178,175,0.3)", fontSize: "14px", fontWeight: 700, color: "#01d9d5" }}
+          >
+            ✓ Robux added to your balance!
           </motion.div>
         )}
       </main>
