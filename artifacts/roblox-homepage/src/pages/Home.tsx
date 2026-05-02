@@ -149,13 +149,18 @@ export default function Home() {
       >
         <button className="flex items-center justify-center hover:text-white/60 transition-colors" style={{ color: "rgba(255,255,255,0.5)", fontSize: "16px", width: "28px", height: "28px" }} aria-label="Back">✕</button>
 
-        <div className="flex items-center rounded-full overflow-hidden select-none" style={{ background: "#1e1f23", border: "1px solid rgba(255,255,255,0.1)" }}>
-          <div className="flex items-center gap-2 pl-4 pr-4 py-2">
+        <div className="flex items-center gap-2 select-none">
+          {/* Balance pill */}
+          <div className="flex items-center gap-2 px-4 py-2 rounded-full" style={{ background: "#1e1f23", border: "1px solid rgba(255,255,255,0.1)" }}>
             <RobuxCoin size={22} />
             <span style={{ fontSize: "17px", fontWeight: 800, letterSpacing: "-0.02em" }}>257</span>
           </div>
-          <div style={{ width: "1px", alignSelf: "stretch", margin: "6px 0", background: "rgba(255,255,255,0.12)" }} />
-          <button className="flex items-center gap-1.5 pl-4 pr-4 py-2 hover:bg-white/8 transition-colors" style={{ color: "#fff", fontSize: "15px", fontWeight: 700 }}>
+
+          {/* Send button — separate box */}
+          <button
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full hover:opacity-80 transition-opacity"
+            style={{ background: "#1e1f23", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontSize: "15px", fontWeight: 700 }}
+          >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
               <polyline points="17 8 12 3 7 8"/>
