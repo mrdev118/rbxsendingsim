@@ -155,7 +155,7 @@ export default function Home() {
       </div>
 
       {/* Balance + Send pill — fixed to very right of page */}
-      <div className="fixed select-none" style={{ top: "78px", right: "16px", zIndex: 50 }}>
+      <div className="select-none" style={{ position: "fixed", top: "78px", right: "16px", zIndex: 50 }}>
         <div
           className="flex items-center gap-2 rounded-full px-2 py-1.5"
           style={{ background: "#1e1f23", border: "1px solid rgba(255,255,255,0.1)" }}
