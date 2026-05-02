@@ -149,19 +149,23 @@ export default function Home() {
       >
         <button className="flex items-center justify-center hover:text-white/60 transition-colors" style={{ color: "rgba(255,255,255,0.5)", fontSize: "16px", width: "28px", height: "28px" }} aria-label="Back">✕</button>
 
-        <div className="flex items-center gap-2 select-none">
-          {/* Balance pill */}
-          <div className="flex items-center gap-2 px-4 py-2 rounded-full" style={{ background: "#1e1f23", border: "1px solid rgba(255,255,255,0.1)" }}>
+        {/* Outer pill: balance left + send box right */}
+        <div
+          className="flex items-center gap-2 select-none rounded-full px-2 py-1.5"
+          style={{ background: "#1e1f23", border: "1px solid rgba(255,255,255,0.1)" }}
+        >
+          {/* Balance */}
+          <div className="flex items-center gap-2 pl-2 pr-1">
             <RobuxCoin size={22} />
             <span style={{ fontSize: "17px", fontWeight: 800, letterSpacing: "-0.02em" }}>257</span>
           </div>
 
-          {/* Send button — separate box */}
+          {/* Send — inner rounded box */}
           <button
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full hover:opacity-80 transition-opacity"
-            style={{ background: "#1e1f23", border: "1px solid rgba(255,255,255,0.1)", color: "#fff", fontSize: "15px", fontWeight: 700 }}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:brightness-125 transition-all"
+            style={{ background: "#2e3039", color: "#fff", fontSize: "14px", fontWeight: 700 }}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
               <polyline points="17 8 12 3 7 8"/>
               <line x1="12" y1="3" x2="12" y2="15"/>
