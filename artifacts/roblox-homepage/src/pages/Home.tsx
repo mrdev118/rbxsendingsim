@@ -114,6 +114,8 @@ export default function Home() {
   const [selected, setSelected] = useState<number | null>(null);
   const [balance, setBalance] = useState(257);
   const [justBought, setJustBought] = useState<number | null>(null);
+  const [sendOpen, setSendOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const ALL_PACKAGES = [...PREMIUM_PACKAGES, ...BASIC_PACKAGES];
 
@@ -188,6 +190,7 @@ export default function Home() {
           <button
             className="flex items-center gap-1.5 px-4 py-1.5 hover:brightness-125 transition-all"
             style={{ borderRadius: "10px", background: "#2e3039", color: "#fff", fontSize: "14px", fontWeight: 700 }}
+            onClick={() => { setSendOpen(true); setSearchQuery(""); }}
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
@@ -345,6 +348,78 @@ export default function Home() {
           </motion.div>
         )}
       </main>
+
+      {/* Send Robux modal */}
+      {sendOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 flex items-center justify-center"
+          style={{ zIndex: 100, background: "rgba(0,0,0,0.72)" }}
+          onClick={() => setSendOpen(false)}
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.18 }}
+            onClick={e => e.stopPropagation()}
+            style={{
+              background: "#1a1b20",
+              borderRadius: "16px",
+              width: "320px",
+              padding: "24px",
+              boxShadow: "0 24px 60px rgba(0,0,0,0.6)",
+              border: "1px solid rgba(255,255,255,0.07)",
+            }}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-2">
+                <RobuxCoin size={20} />
+                <span style={{ fontSize: "18px", fontWeight: 800 }}>Send Robux</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1.5">
+                  <RobuxCoin size={16} />
+                  <span style={{ fontSize: "14px", fontWeight: 700 }}>{balance.toLocaleString()}</span>
+                </div>
+                <button
+                  onClick={() => setSendOpen(false)}
+                  className="flex items-center justify-center hover:opacity-70 transition-opacity"
+                  style={{ color: "rgba(255,255,255,0.5)", fontSize: "18px", lineHeight: 1 }}
+                  aria-label="Close"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            {/* Search */}
+            <p style={{ fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.7)", marginBottom: "10px" }}>
+              Search by username
+            </p>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder="Search username"
+              autoFocus
+              style={{
+                width: "100%",
+                background: "#25262d",
+                border: "1px solid rgba(255,255,255,0.1)",
+                borderRadius: "10px",
+                padding: "12px 14px",
+                color: "#fff",
+                fontSize: "14px",
+                outline: "none",
+              }}
+            />
+          </motion.div>
+        </motion.div>
+      )}
     </div>
   );
 }
