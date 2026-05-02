@@ -393,6 +393,8 @@ export default function Home() {
                 outline: "none",
               }}
             />
+            {/* Results area */}
+            <div style={{ height: "160px" }} />
           </motion.div>
         </motion.div>
       )}
