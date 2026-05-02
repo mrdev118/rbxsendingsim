@@ -277,7 +277,8 @@ export default function Home() {
                 style={{
                   fontSize: "16px",
                   fontWeight: 700,
-                  padding: "8px 22px",
+                  padding: "8px 0",
+                  width: "120px",
                   borderRadius: "10px",
                   background: selected === pkg.id ? "#01b2af" : "#2a2d38",
                   color: "#fff",
