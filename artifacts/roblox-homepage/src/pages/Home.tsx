@@ -141,39 +141,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* ── Roblox app bar ── */}
-      <header
-        className="flex items-center justify-between px-4"
-        style={{ height: "44px", background: "#121215", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
-        data-testid="header"
-      >
-        <button className="flex items-center justify-center hover:text-white/60 transition-colors" style={{ color: "rgba(255,255,255,0.5)", fontSize: "16px", width: "28px", height: "28px" }} aria-label="Back">✕</button>
-
-        {/* Outer pill: balance left + send box right */}
-        <div
-          className="flex items-center gap-2 select-none rounded-full px-2 py-1.5"
-          style={{ background: "#1e1f23", border: "1px solid rgba(255,255,255,0.1)" }}
-        >
-          {/* Balance */}
-          <div className="flex items-center gap-2 pl-2 pr-1">
-            <RobuxCoin size={22} />
-            <span style={{ fontSize: "17px", fontWeight: 800, letterSpacing: "-0.02em" }}>257</span>
-          </div>
-
-          {/* Send — inner rounded box */}
-          <button
-            className="flex items-center gap-1.5 px-3 py-1.5 hover:brightness-125 transition-all"
-            style={{ borderRadius: "10px", background: "#2e3039", color: "#fff", fontSize: "14px", fontWeight: 700 }}
-          >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-              <polyline points="17 8 12 3 7 8"/>
-              <line x1="12" y1="3" x2="12" y2="15"/>
-            </svg>
-            Send
-          </button>
-        </div>
-      </header>
 
       {/* Page content */}
       <main className="max-w-2xl mx-auto px-6 pt-12 pb-16">
