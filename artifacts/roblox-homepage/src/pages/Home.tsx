@@ -33,25 +33,51 @@ export default function Home() {
       style={{ background: "#111214", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
       data-testid="page-robux"
     >
-      {/* Top bar — username centered, balance+send on right */}
-      <header
-        className="relative flex items-center justify-between px-6 py-3 border-b"
-        style={{ borderColor: "rgba(255,255,255,0.08)", background: "#111214" }}
-        data-testid="header"
+      {/* ── OS-style title bar ── */}
+      <div
+        className="relative flex items-center justify-between px-3"
+        style={{ background: "#1a1a1a", height: "32px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+        data-testid="titlebar"
       >
-        {/* Left spacer (matches right side width) */}
-        <div className="w-40" />
+        {/* Left: close button */}
+        <button
+          className="flex items-center justify-center w-5 h-5 rounded-full transition-opacity hover:opacity-80"
+          style={{ background: "#ff5f57" }}
+          data-testid="button-close"
+          aria-label="Close"
+        >
+          <svg width="8" height="8" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+            <path d="M2 2l6 6M8 2l-6 6" stroke="#7a1a1a" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+        </button>
 
-        {/* Center: username + balance label */}
+        {/* Center: username + balance */}
         <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center leading-tight">
-          <span className="text-[13px] font-semibold text-white/70" data-testid="text-username">
-            THEDAEMON_KILLP15-1&gt;
+          <span className="text-[11px] font-semibold" style={{ color: "rgba(255,255,255,0.6)" }} data-testid="text-titlebar-username">
+            Benxxyz
           </span>
-          <span className="text-[11px] text-white/35 mt-0.5">Balance: 257 Robux</span>
+          <span className="text-[10px]" style={{ color: "rgba(255,255,255,0.35)" }}>Balance: 257 Robux</span>
         </div>
 
+        {/* Right: min / max / close window controls */}
+        <div className="flex items-center gap-1.5">
+          <button className="flex items-center justify-center w-5 h-5 rounded-full hover:opacity-80" style={{ background: "#febc2e" }} aria-label="Minimize">
+            <svg width="8" height="2" viewBox="0 0 8 2" fill="none" aria-hidden="true"><rect width="8" height="1.5" rx="0.75" fill="#7a5400"/></svg>
+          </button>
+          <button className="flex items-center justify-center w-5 h-5 rounded-full hover:opacity-80" style={{ background: "#28c840" }} aria-label="Maximize">
+            <svg width="7" height="7" viewBox="0 0 7 7" fill="none" aria-hidden="true"><rect x="0.75" y="0.75" width="5.5" height="5.5" rx="1" stroke="#0a5a14" strokeWidth="1"/></svg>
+          </button>
+        </div>
+      </div>
+
+      {/* ── Roblox app bar ── */}
+      <header
+        className="relative flex items-center justify-end px-6 py-2.5 border-b"
+        style={{ borderColor: "rgba(255,255,255,0.07)", background: "#111214" }}
+        data-testid="header"
+      >
         {/* Right: balance pill + send */}
-        <div className="flex items-center gap-2 w-40 justify-end">
+        <div className="flex items-center gap-2">
           <div
             className="flex items-center gap-2 px-3 py-1.5 rounded-full"
             style={{ background: "rgba(255,255,255,0.09)" }}
@@ -65,7 +91,7 @@ export default function Home() {
             style={{ background: "rgba(255,255,255,0.09)", color: "#fff" }}
             data-testid="button-send"
           >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <line x1="5" y1="12" x2="19" y2="12" />
               <polyline points="12 5 19 12 12 19" />
             </svg>
