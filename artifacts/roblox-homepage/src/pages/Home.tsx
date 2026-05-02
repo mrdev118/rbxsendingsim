@@ -213,16 +213,8 @@ export default function Home() {
             height: "320px",
             pointerEvents: "none",
             overflow: "hidden",
-            maskImage: `
-              linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 30%, black 55%, black 100%),
-              linear-gradient(to bottom, black 0%, black 40%, transparent 100%)
-            `,
-            WebkitMaskImage: `
-              linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 30%, black 55%, black 100%),
-              linear-gradient(to bottom, black 0%, black 40%, transparent 100%)
-            `,
-            maskComposite: "intersect",
-            WebkitMaskComposite: "destination-in",
+            maskImage: `radial-gradient(ellipse 75% 55% at 50% 0%, black 0%, black 35%, rgba(0,0,0,0.4) 60%, transparent 100%)`,
+            WebkitMaskImage: `radial-gradient(ellipse 75% 55% at 50% 0%, black 0%, black 35%, rgba(0,0,0,0.4) 60%, transparent 100%)`,
           }}
         >
           <svg
@@ -241,7 +233,7 @@ export default function Home() {
                 <path
                   key={`h${i}`}
                   d={`M -20 ${y} C 100 ${y + amp * phase} 220 ${y - amp * phase} 340 ${y + amp * phase} C 460 ${y - amp * phase} 540 ${y} 580 ${y}`}
-                  stroke="rgba(255,255,255,0.18)"
+                  stroke="rgba(255,255,255,0.09)"
                   strokeWidth="0.6"
                   fill="none"
                 />
@@ -256,7 +248,7 @@ export default function Home() {
                 <path
                   key={`v${i}`}
                   d={`M ${x} -10 C ${x + amp * phase} 70 ${x - amp * phase} 150 ${x + amp * phase} 230 C ${x - amp * phase} 290 ${x} 320 ${x} 340`}
-                  stroke="rgba(255,255,255,0.18)"
+                  stroke="rgba(255,255,255,0.09)"
                   strokeWidth="0.6"
                   fill="none"
                 />
