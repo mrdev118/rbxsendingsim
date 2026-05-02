@@ -1,205 +1,238 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
+import bonusGameImg from "@assets/image_1777750963069.png";
+
+const ROBUX_PACKAGES = [
+  { id: 1, amount: 24000, oldAmount: 22500, bonus: 1500, price: "P11.49K" },
+  { id: 2, amount: 11000, oldAmount: 10000, bonus: 1000, price: "P5,700.00" },
+  { id: 3, amount: 5250,  oldAmount: 4500,  bonus: 750,  price: "P2,890.00" },
+  { id: 4, amount: 3625,  oldAmount: 3150,  bonus: 475,  price: "P1,990.00" },
+  { id: 5, amount: 2200,  oldAmount: 1700,  bonus: 500,  price: "P1,090.00" },
+  { id: 6, amount: 1000,  oldAmount: 800,   bonus: 200,  price: "P499.00"   },
+  { id: 7, amount: 400,   oldAmount: 350,   bonus: 50,   price: "P199.00"   },
+];
+
+function RobuxIcon({ size = 18, className = "" }: { size?: number; className?: string }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 20 20"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+    >
+      <circle cx="10" cy="10" r="10" fill="#01B2AF" />
+      <path
+        d="M6 5h5.5a2.5 2.5 0 0 1 0 5H8.5v1H12l2 4H10.5L9 12.5H8.5V15H6V5z"
+        fill="white"
+      />
+    </svg>
+  );
+}
 
 export default function Home() {
-  const [gender, setGender] = useState<"female" | "male" | null>(null);
-
-  const games = Array.from({ length: 12 }, (_, i) => `/images/game${(i % 10) + 1}.png`);
+  const [selected, setSelected] = useState<number | null>(null);
 
   return (
-    <div className="relative min-h-[100dvh] w-full overflow-hidden bg-black font-sans text-white">
-      {/* Background Wallpaper */}
-      <motion.div 
-        className="absolute inset-0 z-0 overflow-hidden"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
+    <div
+      className="min-h-screen w-full text-white font-sans overflow-x-hidden"
+      style={{ background: "#111214" }}
+      data-testid="page-robux"
+    >
+      {/* Subtle dot background pattern */}
+      <div
+        className="fixed inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+        }}
+      />
+
+      {/* Top bar */}
+      <header
+        className="relative z-10 flex items-center justify-between px-6 py-3 border-b"
+        style={{ borderColor: "rgba(255,255,255,0.07)", background: "#111214" }}
+        data-testid="header"
       >
-        <div 
-          className="absolute inset-[-20%] grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 opacity-60"
-          style={{ transform: "rotate(-10deg) scale(1.2)" }}
-        >
-          {Array.from({ length: 60 }).map((_, i) => (
-            <div 
-              key={i} 
-              className="aspect-square bg-gray-800 rounded-md overflow-hidden"
-            >
-              <img 
-                src={games[i % games.length]} 
-                alt={`Game ${i}`} 
-                className="w-full h-full object-cover object-center"
-              />
-            </div>
-          ))}
+        <div className="flex flex-col leading-tight">
+          <span className="text-xs text-gray-400 font-medium" data-testid="text-username">
+            THEDAEMON_KILLP15-1&gt;
+          </span>
+          <span className="text-xs text-gray-500">Balance: 257 Robux</span>
         </div>
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
-      </motion.div>
 
-      {/* Top Nav */}
-      <nav className="relative z-10 flex items-center justify-between px-6 py-4">
-        <div className="w-24"></div> {/* Spacer */}
-        
-        <motion.div 
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="flex items-center justify-center font-black text-4xl tracking-tighter text-white"
-        >
-          R<span className="inline-block w-6 h-6 border-[5px] border-white transform rotate-12 mx-1 -mt-1"></span>BLOX
-        </motion.div>
-
-        <div className="w-24 flex justify-end">
-          <Button 
-            variant="outline" 
-            className="border-white text-white hover:bg-white hover:text-black font-bold px-6 py-2 h-auto rounded-sm bg-transparent"
-            data-testid="button-login"
+        <div className="flex items-center gap-2">
+          <div
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full"
+            style={{ background: "rgba(255,255,255,0.08)" }}
+            data-testid="robux-balance"
           >
-            Log In
-          </Button>
+            <RobuxIcon size={16} />
+            <span className="text-sm font-bold">257</span>
+          </div>
+          <button
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold transition-colors hover:bg-white/10"
+            style={{ background: "rgba(255,255,255,0.06)", color: "#fff" }}
+            data-testid="button-send"
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+            Send
+          </button>
         </div>
-      </nav>
+      </header>
 
-      {/* Main Content */}
-      <main className="relative z-10 flex flex-col items-center justify-center px-4 pt-10 pb-24 min-h-[calc(100vh-80px)]">
-        <motion.div 
-          initial={{ y: 40, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.4, type: "spring", stiffness: 100 }}
-          className="w-full max-w-md bg-black/80 backdrop-blur-md p-8 rounded-lg border border-white/10 shadow-2xl"
-        >
-          <h1 className="text-2xl font-bold text-center mb-6" data-testid="heading-signup">
-            SIGN UP AND START HAVING FUN!
-          </h1>
-
-          <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-            <div className="space-y-2">
-              <Label className="text-xs font-bold text-gray-300">Birthday</Label>
-              <div className="grid grid-cols-3 gap-2">
-                <Select>
-                  <SelectTrigger className="bg-white text-black font-bold h-10 border-0" data-testid="select-month">
-                    <SelectValue placeholder="Month" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="1">Jan</SelectItem>
-                    <SelectItem value="2">Feb</SelectItem>
-                    <SelectItem value="3">Mar</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Select>
-                  <SelectTrigger className="bg-white text-black font-bold h-10 border-0" data-testid="select-day">
-                    <SelectValue placeholder="Day" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="1">1</SelectItem>
-                    <SelectItem value="2">2</SelectItem>
-                    <SelectItem value="3">3</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Select>
-                  <SelectTrigger className="bg-white text-black font-bold h-10 border-0" data-testid="select-year">
-                    <SelectValue placeholder="Year" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="2010">2010</SelectItem>
-                    <SelectItem value="2011">2011</SelectItem>
-                    <SelectItem value="2012">2012</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-xs font-bold text-gray-300">Username</Label>
-              <Input 
-                type="text" 
-                placeholder="Don't use your real name" 
-                className="bg-white text-black placeholder:text-gray-500 font-bold h-10 border-0"
-                data-testid="input-username"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-xs font-bold text-gray-300">Password</Label>
-              <Input 
-                type="password" 
-                placeholder="At least 8 characters" 
-                className="bg-white text-black placeholder:text-gray-500 font-bold h-10 border-0"
-                data-testid="input-password"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-xs font-bold text-gray-300">Gender (optional)</Label>
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => setGender("female")}
-                  data-testid="button-gender-female"
-                  className={`flex items-center justify-center p-3 rounded-md transition-colors ${
-                    gender === "female" ? "bg-white text-black" : "bg-gray-800 text-white hover:bg-gray-700"
-                  }`}
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 15v7"/><path d="M9 19h6"/><circle cx="12" cy="9" r="6"/></svg>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setGender("male")}
-                  data-testid="button-gender-male"
-                  className={`flex items-center justify-center p-3 rounded-md transition-colors ${
-                    gender === "male" ? "bg-white text-black" : "bg-gray-800 text-white hover:bg-gray-700"
-                  }`}
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 14L21 3"/><path d="M16 3h5v5"/><circle cx="10" cy="14" r="6"/></svg>
-                </button>
-              </div>
-            </div>
-
-            <p className="text-[10px] text-gray-400 text-center pt-2 leading-relaxed">
-              By clicking Sign Up, you are agreeing to the Terms of Use including the arbitration clause and you are acknowledging the Privacy Policy.
-            </p>
-
-            <Button 
-              className="w-full bg-[#00b06f] hover:bg-[#00915a] text-white font-black text-lg py-6 mt-4 shadow-lg"
-              data-testid="button-signup"
-            >
-              Sign Up
-            </Button>
-          </form>
-        </motion.div>
-
-        {/* Platform Badges */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+      {/* Main content */}
+      <main className="relative z-10 max-w-2xl mx-auto px-4 pt-10 pb-16">
+        {/* Heading */}
+        <motion.h1
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          className="mt-12 flex flex-col items-center gap-4 w-full max-w-4xl"
+          transition={{ duration: 0.45 }}
+          className="text-4xl sm:text-5xl font-black text-center leading-tight mb-10"
+          data-testid="heading-main"
         >
-          <h2 className="text-sm font-bold tracking-widest text-gray-400">ROBLOX ON YOUR DEVICE</h2>
-          <div className="flex flex-wrap justify-center gap-3">
-            {[
-              { label: "App Store", testId: "badge-appstore" },
-              { label: "Google Play", testId: "badge-googleplay" },
-              { label: "PlayStation", testId: "badge-playstation" },
-              { label: "Xbox", testId: "badge-xbox" },
-              { label: "Meta Quest", testId: "badge-meta" },
-              { label: "Microsoft", testId: "badge-microsoft" },
-              { label: "Amazon Appstore", testId: "badge-amazon" },
-              { label: "Galaxy Store", testId: "badge-samsung" },
-            ].map((p) => (
-              <button
-                key={p.testId}
-                data-testid={p.testId}
-                className="bg-white/10 hover:bg-white/20 border border-white/20 px-4 py-2 rounded-md text-xs font-bold text-white transition-colors cursor-pointer tracking-wide"
-              >
-                {p.label}
-              </button>
-            ))}
+          Enjoy up to 25%<br />more Robux
+        </motion.h1>
+
+        {/* Bonus item card */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.4 }}
+          className="mb-6"
+        >
+          <p className="text-sm font-bold text-white mb-2" data-testid="text-bonus-label">
+            Bonus item we picked for you
+          </p>
+          <div
+            className="flex items-center gap-4 rounded-xl overflow-hidden"
+            style={{ background: "#1e2026", border: "1px solid rgba(255,255,255,0.07)" }}
+            data-testid="card-bonus-item"
+          >
+            {/* Icon + text */}
+            <div className="flex items-center gap-3 px-4 py-4 flex-1 min-w-0">
+              <div className="relative flex-shrink-0">
+                <div
+                  className="w-12 h-12 rounded-lg flex items-center justify-center text-2xl"
+                  style={{ background: "#2a2f3a" }}
+                >
+                  💰
+                </div>
+                <span
+                  className="absolute -bottom-1 -right-1 text-[10px] font-black px-1 rounded"
+                  style={{ background: "#00b06f", color: "#fff" }}
+                >
+                  x2
+                </span>
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1">
+                  <span className="text-sm font-bold truncate" data-testid="text-bonus-name">
+                    [🍎] Steal a Brainrot
+                  </span>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-500 flex-shrink-0" aria-label="info">
+                    <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
+                  </svg>
+                </div>
+                <p className="text-xs text-gray-400 mt-0.5">2x Money</p>
+              </div>
+            </div>
+            {/* Game thumbnail — right side */}
+            <div className="w-32 h-20 flex-shrink-0 overflow-hidden">
+              <img
+                src={bonusGameImg}
+                alt="Bonus game"
+                className="w-full h-full object-cover object-right-top"
+                data-testid="img-bonus-game"
+              />
+            </div>
           </div>
         </motion.div>
+
+        {/* Robux package list */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.18, duration: 0.4 }}
+          className="flex flex-col gap-2"
+          data-testid="list-packages"
+        >
+          {ROBUX_PACKAGES.map((pkg, i) => (
+            <motion.button
+              key={pkg.id}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 + i * 0.05 }}
+              onClick={() => setSelected(pkg.id)}
+              data-testid={`row-package-${pkg.id}`}
+              className="w-full flex items-center justify-between px-4 py-4 rounded-xl text-left transition-all"
+              style={{
+                background: selected === pkg.id ? "#2a2f3a" : "#1a1d22",
+                border: selected === pkg.id
+                  ? "1px solid rgba(1,178,175,0.5)"
+                  : "1px solid rgba(255,255,255,0.06)",
+              }}
+            >
+              {/* Left: amount info */}
+              <div className="flex items-center gap-3">
+                <RobuxIcon size={20} />
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-base font-black" data-testid={`text-amount-${pkg.id}`}>
+                    {pkg.amount.toLocaleString()}
+                  </span>
+                  <span
+                    className="text-sm line-through"
+                    style={{ color: "rgba(255,255,255,0.35)" }}
+                    data-testid={`text-old-amount-${pkg.id}`}
+                  >
+                    {pkg.oldAmount.toLocaleString()}
+                  </span>
+                  <span
+                    className="text-xs font-semibold px-2 py-0.5 rounded-full"
+                    style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.6)" }}
+                    data-testid={`text-bonus-${pkg.id}`}
+                  >
+                    + {pkg.bonus.toLocaleString()} more
+                  </span>
+                </div>
+              </div>
+
+              {/* Right: price button */}
+              <span
+                className="text-sm font-bold px-5 py-2 rounded-lg flex-shrink-0 ml-4 transition-colors"
+                style={{
+                  background: selected === pkg.id ? "#01b2af" : "#2c3040",
+                  color: selected === pkg.id ? "#fff" : "rgba(255,255,255,0.85)",
+                }}
+                data-testid={`text-price-${pkg.id}`}
+              >
+                {pkg.price}
+              </span>
+            </motion.button>
+          ))}
+        </motion.div>
+
+        {/* Buy button */}
+        {selected && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-6"
+          >
+            <button
+              className="w-full py-4 rounded-xl text-base font-black transition-opacity hover:opacity-90"
+              style={{ background: "#01b2af" }}
+              data-testid="button-buy"
+              onClick={() => setSelected(null)}
+            >
+              Buy Robux
+            </button>
+          </motion.div>
+        )}
       </main>
     </div>
   );
