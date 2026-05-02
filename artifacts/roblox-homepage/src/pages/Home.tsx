@@ -104,31 +104,33 @@ export default function Home() {
 
         {/* Right: single combined pill — balance | send */}
         <div
-          className="flex items-center rounded-full overflow-hidden"
-          style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.08)" }}
+          className="flex items-center rounded-full overflow-hidden select-none"
+          style={{ background: "#1e1f23", border: "1px solid rgba(255,255,255,0.1)" }}
           data-testid="robux-balance-send"
         >
           {/* Balance side */}
           <div
-            className="flex items-center gap-1.5 pl-3 pr-3 py-1.5"
+            className="flex items-center gap-2 pl-4 pr-4 py-2"
             data-testid="robux-balance"
           >
-            <RobuxCoin size={18} />
-            <span style={{ fontSize: "14px", fontWeight: 700 }}>257</span>
+            <RobuxCoin size={22} />
+            <span style={{ fontSize: "17px", fontWeight: 800, letterSpacing: "-0.02em" }}>257</span>
           </div>
 
           {/* Divider */}
-          <div style={{ width: "1px", height: "16px", background: "rgba(255,255,255,0.15)" }} />
+          <div style={{ width: "1px", alignSelf: "stretch", margin: "6px 0", background: "rgba(255,255,255,0.12)" }} />
 
           {/* Send side */}
           <button
-            className="flex items-center gap-1.5 pl-3 pr-3 py-1.5 hover:bg-white/10 transition-colors"
-            style={{ color: "#fff", fontSize: "13px", fontWeight: 600 }}
+            className="flex items-center gap-1.5 pl-4 pr-4 py-2 hover:bg-white/8 transition-colors"
+            style={{ color: "#fff", fontSize: "15px", fontWeight: 700 }}
             data-testid="button-send"
           >
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <line x1="12" y1="19" x2="12" y2="5"/>
-              <polyline points="5 12 12 5 19 12"/>
+            {/* Upload/tray icon matching the original */}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
             </svg>
             Send
           </button>
