@@ -102,22 +102,31 @@ export default function Home() {
           ✕
         </button>
 
-        {/* Right: balance pill + send */}
-        <div className="flex items-center gap-2">
+        {/* Right: single combined pill — balance | send */}
+        <div
+          className="flex items-center rounded-full overflow-hidden"
+          style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.08)" }}
+          data-testid="robux-balance-send"
+        >
+          {/* Balance side */}
           <div
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full"
-            style={{ background: "rgba(255,255,255,0.1)" }}
+            className="flex items-center gap-1.5 pl-3 pr-3 py-1.5"
             data-testid="robux-balance"
           >
-            <RobuxCoin size={20} />
+            <RobuxCoin size={18} />
             <span style={{ fontSize: "14px", fontWeight: 700 }}>257</span>
           </div>
+
+          {/* Divider */}
+          <div style={{ width: "1px", height: "16px", background: "rgba(255,255,255,0.15)" }} />
+
+          {/* Send side */}
           <button
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full transition-colors hover:bg-white/15"
-            style={{ background: "rgba(255,255,255,0.1)", color: "#fff", fontSize: "13px", fontWeight: 600 }}
+            className="flex items-center gap-1.5 pl-3 pr-3 py-1.5 hover:bg-white/10 transition-colors"
+            style={{ color: "#fff", fontSize: "13px", fontWeight: 600 }}
             data-testid="button-send"
           >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <line x1="12" y1="19" x2="12" y2="5"/>
               <polyline points="5 12 12 5 19 12"/>
             </svg>
