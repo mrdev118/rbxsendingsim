@@ -186,7 +186,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="text-center leading-[1.1] mb-12"
+          className="text-center leading-[1.1] mt-10 mb-16"
           style={{ fontSize: "clamp(2.8rem, 6vw, 4rem)", fontWeight: 900, letterSpacing: "-0.01em" }}
           data-testid="heading-main"
         >
