@@ -12,7 +12,7 @@ const ROBUX_PACKAGES = [
   { id: 7, amount: 400,   oldAmount: 350,   bonus: 50,   price: "P199.00"   },
 ];
 
-function RobuxCoin({ size = 18 }: { size?: number }) {
+function RobuxCoin({ size = 20 }: { size?: number }) {
   return (
     <img
       src={robuxIconSrc}
@@ -29,36 +29,39 @@ export default function Home() {
 
   return (
     <div
-      className="min-h-screen w-full text-white font-sans"
-      style={{ background: "#111214" }}
+      className="min-h-screen w-full text-white"
+      style={{ background: "#111214", fontFamily: "'Plus Jakarta Sans', sans-serif" }}
       data-testid="page-robux"
     >
-      {/* Top bar */}
+      {/* Top bar — username centered, balance+send on right */}
       <header
-        className="flex items-center justify-between px-6 py-3 border-b"
+        className="relative flex items-center justify-between px-6 py-3 border-b"
         style={{ borderColor: "rgba(255,255,255,0.08)", background: "#111214" }}
         data-testid="header"
       >
-        {/* Left: username + balance */}
-        <div className="flex flex-col leading-tight">
-          <span className="text-[13px] font-semibold text-white/80" data-testid="text-username">
+        {/* Left spacer (matches right side width) */}
+        <div className="w-40" />
+
+        {/* Center: username + balance label */}
+        <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center leading-tight">
+          <span className="text-[13px] font-semibold text-white/70" data-testid="text-username">
             THEDAEMON_KILLP15-1&gt;
           </span>
-          <span className="text-[11px] text-white/40">Balance: 257 Robux</span>
+          <span className="text-[11px] text-white/35 mt-0.5">Balance: 257 Robux</span>
         </div>
 
         {/* Right: balance pill + send */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-40 justify-end">
           <div
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full"
             style={{ background: "rgba(255,255,255,0.09)" }}
             data-testid="robux-balance"
           >
             <RobuxCoin size={22} />
-            <span className="text-sm font-bold">257</span>
+            <span className="text-[15px] font-bold">257</span>
           </div>
           <button
-            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-sm font-semibold"
+            className="flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[13px] font-semibold"
             style={{ background: "rgba(255,255,255,0.09)", color: "#fff" }}
             data-testid="button-send"
           >
@@ -72,14 +75,19 @@ export default function Home() {
       </header>
 
       {/* Page content */}
-      <main className="max-w-xl mx-auto px-5 pt-10 pb-16">
+      <main className="max-w-2xl mx-auto px-6 pt-12 pb-16">
 
-        {/* Heading */}
+        {/* Heading — large, heavy, matching original */}
         <motion.h1
-          initial={{ opacity: 0, y: 14 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="text-4xl sm:text-5xl font-black text-center leading-[1.15] mb-10"
+          className="text-center leading-[1.1] mb-12"
+          style={{
+            fontSize: "clamp(2.8rem, 6vw, 4rem)",
+            fontWeight: 900,
+            letterSpacing: "-0.01em",
+          }}
           data-testid="heading-main"
         >
           Enjoy up to 25%<br />more Robux
@@ -92,7 +100,11 @@ export default function Home() {
           transition={{ delay: 0.08, duration: 0.35 }}
           className="mb-5"
         >
-          <p className="text-sm font-bold text-white mb-2" data-testid="text-bonus-label">
+          <p
+            className="mb-2"
+            style={{ fontSize: "17px", fontWeight: 700, color: "#fff" }}
+            data-testid="text-bonus-label"
+          >
             Bonus item we picked for you
           </p>
           <div
@@ -100,37 +112,34 @@ export default function Home() {
             style={{ background: "#1c1f26", border: "1px solid rgba(255,255,255,0.07)" }}
             data-testid="card-bonus-item"
           >
-            {/* Icon + text */}
-            <div className="flex items-center gap-3 px-4 py-4 flex-1 min-w-0">
+            <div className="flex items-center gap-4 px-5 py-4 flex-1 min-w-0">
               <div className="relative flex-shrink-0">
                 <div
-                  className="w-12 h-12 rounded-lg flex items-center justify-center text-2xl"
+                  className="w-14 h-14 rounded-xl flex items-center justify-center text-3xl"
                   style={{ background: "#252a35" }}
                 >
                   💰
                 </div>
                 <span
-                  className="absolute -bottom-1 -right-2 text-[10px] font-black px-1.5 py-0.5 rounded"
+                  className="absolute -bottom-1 -right-2 text-[11px] font-black px-1.5 py-0.5 rounded"
                   style={{ background: "#00b06f", color: "#fff" }}
                 >
                   x2
                 </span>
               </div>
               <div className="min-w-0">
-                <div className="flex items-center gap-1">
-                  <span className="text-[13px] font-bold" data-testid="text-bonus-name">
+                <div className="flex items-center gap-1.5">
+                  <span style={{ fontSize: "15px", fontWeight: 700 }} data-testid="text-bonus-name">
                     [🍎] Steal a Brainrot
                   </span>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-white/30 flex-shrink-0" aria-label="info">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: "rgba(255,255,255,0.3)", flexShrink: 0 }} aria-label="info">
                     <circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/>
                   </svg>
                 </div>
-                <p className="text-xs text-white/40 mt-0.5">2x Money</p>
+                <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", marginTop: "3px" }}>2x Money</p>
               </div>
             </div>
-
-            {/* Game thumbnail from public images */}
-            <div className="w-28 h-[72px] flex-shrink-0 overflow-hidden">
+            <div className="w-32 h-20 flex-shrink-0 overflow-hidden">
               <img
                 src="/images/game3.png"
                 alt="Steal a Brainrot"
@@ -145,7 +154,7 @@ export default function Home() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.15, duration: 0.3 }}
+          transition={{ delay: 0.14, duration: 0.3 }}
           className="rounded-xl overflow-hidden"
           style={{ border: "1px solid rgba(255,255,255,0.07)" }}
           data-testid="list-packages"
@@ -158,40 +167,62 @@ export default function Home() {
               transition={{ delay: 0.18 + i * 0.04 }}
               onClick={() => setSelected(pkg.id === selected ? null : pkg.id)}
               data-testid={`row-package-${pkg.id}`}
-              className="w-full flex items-center justify-between px-4 py-3.5 text-left transition-colors"
+              className="w-full flex items-center justify-between px-5 py-4 text-left transition-colors"
               style={{
                 background: selected === pkg.id ? "rgba(1,178,175,0.1)" : "#1a1d22",
                 borderTop: i === 0 ? "none" : "1px solid rgba(255,255,255,0.06)",
               }}
             >
-              {/* Robux amount info */}
-              <div className="flex items-center gap-2.5">
-                <RobuxCoin size={26} />
-                <span className="text-[15px] font-black" data-testid={`text-amount-${pkg.id}`}>
+              {/* Left: icon + amounts */}
+              <div className="flex items-center gap-3">
+                <RobuxCoin size={28} />
+                <span
+                  style={{ fontSize: "20px", fontWeight: 900 }}
+                  data-testid={`text-amount-${pkg.id}`}
+                >
                   {pkg.amount.toLocaleString()}
                 </span>
                 <span
-                  className="text-sm line-through"
-                  style={{ color: "rgba(255,255,255,0.3)" }}
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: 500,
+                    textDecoration: "line-through",
+                    color: "rgba(255,255,255,0.3)",
+                  }}
                   data-testid={`text-old-amount-${pkg.id}`}
                 >
                   {pkg.oldAmount.toLocaleString()}
                 </span>
                 <span
-                  className="text-[11px] font-semibold px-2 py-0.5 rounded-full"
-                  style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.55)" }}
+                  style={{
+                    fontSize: "12px",
+                    fontWeight: 600,
+                    padding: "3px 10px",
+                    borderRadius: "999px",
+                    background: "rgba(255,255,255,0.08)",
+                    color: "rgba(255,255,255,0.5)",
+                    whiteSpace: "nowrap",
+                  }}
                   data-testid={`text-bonus-${pkg.id}`}
                 >
                   + {pkg.bonus.toLocaleString()} more
                 </span>
               </div>
 
-              {/* Price */}
+              {/* Right: price */}
               <span
-                className="text-sm font-bold px-5 py-2 rounded-lg flex-shrink-0 ml-3 min-w-[90px] text-center"
                 style={{
+                  fontSize: "16px",
+                  fontWeight: 700,
+                  padding: "8px 22px",
+                  borderRadius: "10px",
                   background: selected === pkg.id ? "#01b2af" : "#2a2d38",
                   color: "#fff",
+                  flexShrink: 0,
+                  marginLeft: "16px",
+                  minWidth: "100px",
+                  textAlign: "center",
+                  display: "inline-block",
                 }}
                 data-testid={`text-price-${pkg.id}`}
               >
@@ -201,7 +232,7 @@ export default function Home() {
           ))}
         </motion.div>
 
-        {/* Buy button (appears when a package is selected) */}
+        {/* Buy button */}
         {selected && (
           <motion.div
             initial={{ opacity: 0, y: 6 }}
@@ -209,8 +240,8 @@ export default function Home() {
             className="mt-4"
           >
             <button
-              className="w-full py-3.5 rounded-xl text-base font-black hover:opacity-90 transition-opacity"
-              style={{ background: "#01b2af" }}
+              className="w-full py-4 rounded-xl font-black hover:opacity-90 transition-opacity"
+              style={{ background: "#01b2af", fontSize: "17px" }}
               data-testid="button-buy"
               onClick={() => setSelected(null)}
             >
