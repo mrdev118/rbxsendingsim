@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import robuxIconSrc from "@assets/8ab2a18d6e954f6b10bad7c36d0ce231-removebg-preview_1777752219611.png";
 import bonusCardSrc from "@assets/image_1777752547366.png";
+import robloxLogoSrc from "@assets/ODF_1777754484560.png";
 
 const PREMIUM_PACKAGES = [
   { id: 1, amount: 24000, oldAmount: 22500, bonus: 1500, price: "P11.49K" },
@@ -143,7 +144,7 @@ export default function Home() {
         data-testid="titlebar"
       >
         <div className="flex items-center gap-1.5 px-3 h-full">
-          <div className="w-3.5 h-3.5 rounded-sm flex-shrink-0" style={{ background: "#e2231a" }} aria-hidden="true" />
+          <img src={robloxLogoSrc} alt="Roblox" className="w-4 h-4 flex-shrink-0 rounded-sm" aria-hidden="true" />
           <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.75)", fontWeight: 400 }}>Roblox</span>
         </div>
 
