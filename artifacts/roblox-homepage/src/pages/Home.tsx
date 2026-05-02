@@ -54,7 +54,7 @@ export default function Home() {
             style={{ background: "rgba(255,255,255,0.09)" }}
             data-testid="robux-balance"
           >
-            <RobuxCoin size={16} />
+            <RobuxCoin size={22} />
             <span className="text-sm font-bold">257</span>
           </div>
           <button
@@ -166,7 +166,7 @@ export default function Home() {
             >
               {/* Robux amount info */}
               <div className="flex items-center gap-2.5">
-                <RobuxCoin size={20} />
+                <RobuxCoin size={26} />
                 <span className="text-[15px] font-black" data-testid={`text-amount-${pkg.id}`}>
                   {pkg.amount.toLocaleString()}
                 </span>
