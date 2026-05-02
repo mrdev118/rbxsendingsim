@@ -1,0 +1,62 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "qevIixLCkJKnuWfiflJom"
+uri = "file://artifacts/roblox-homepage/public/images/game1.png"
+type = "image"
+title = "Action fighting game thumbnail"
+
+[[generated]]
+id = "da2zNsZUlzrlvF2d-9bt8"
+uri = "file://artifacts/roblox-homepage/public/images/game2.png"
+type = "image"
+title = "Racing car game thumbnail"
+
+[[generated]]
+id = "fvzMpNM-0nwDFxyA1D8Xg"
+uri = "file://artifacts/roblox-homepage/public/images/game3.png"
+type = "image"
+title = "Obby parkour game thumbnail"
+
+[[generated]]
+id = "69fNw5KayDwUMe2km_YN9"
+uri = "file://artifacts/roblox-homepage/public/images/game4.png"
+type = "image"
+title = "Roleplay city game thumbnail"
+
+[[generated]]
+id = "wKmzigXHHsJX6_Ii0FLbX"
+uri = "file://artifacts/roblox-homepage/public/images/game5.png"
+type = "image"
+title = "Anime fighting game thumbnail"
+
+[[generated]]
+id = "Lcz7LQLkteCKI_dZ7YpqX"
+uri = "file://artifacts/roblox-homepage/public/images/game6.png"
+type = "image"
+title = "Mystery horror game thumbnail"
+
+[[generated]]
+id = "l0fwSGfDuwwxEXszGNHS4"
+uri = "file://artifacts/roblox-homepage/public/images/game7.png"
+type = "image"
+title = "Tycoon game factory thumbnail"
+
+[[generated]]
+id = "x26KD7yyDcLNaEq-G1Z8S"
+uri = "file://artifacts/roblox-homepage/public/images/game8.png"
+type = "image"
+title = "Pet adoption game thumbnail"
+
+[[generated]]
+id = "sZmESgDXrF9ULf4_UY08Z"
+uri = "file://artifacts/roblox-homepage/public/images/game9.png"
+type = "image"
+title = "Survival zombie game thumbnail"
+
+[[generated]]
+id = "Aqj8k-zz7QNjm_aPuODUI"
+uri = "file://artifacts/roblox-homepage/public/images/game10.png"
+type = "image"
+title = "Space exploration game thumbnail"
