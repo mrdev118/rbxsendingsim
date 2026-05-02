@@ -118,18 +118,13 @@ export default function Home() {
     >
       {/* ── Windows title bar ── */}
       <div
-        className="relative flex items-center justify-between select-none"
+        className="flex items-center justify-between select-none"
         style={{ background: "#1f1f1f", height: "30px", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
         data-testid="titlebar"
       >
         <div className="flex items-center gap-1.5 px-3 h-full">
           <div className="w-3.5 h-3.5 rounded-sm flex-shrink-0" style={{ background: "#e2231a" }} aria-hidden="true" />
           <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.75)", fontWeight: 400 }}>Roblox</span>
-        </div>
-
-        <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center" style={{ lineHeight: 1.3 }}>
-          <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.55)", fontWeight: 500 }}>Benxxyz</span>
-          <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.35)" }}>Balance: 257 Robux</span>
         </div>
 
         <div className="flex items-stretch h-full">
@@ -141,28 +136,42 @@ export default function Home() {
         </div>
       </div>
 
+      {/* ── App bar: × left | username+balance centered | pill right ── */}
+      <div
+        className="relative flex items-center justify-between px-3 select-none"
+        style={{ background: "#1a1a1d", height: "40px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}
+      >
+        {/* Left: × */}
+        <button className="flex items-center justify-center hover:text-white/60 transition-colors" style={{ color: "rgba(255,255,255,0.5)", fontSize: "15px", width: "24px", height: "24px" }} aria-label="Back">✕</button>
 
-      {/* ── Balance + Send pill (no bar) ── */}
-      <div className="flex justify-end px-4 py-2">
-        <div
-          className="flex items-center gap-2 select-none rounded-full px-2 py-1.5"
-          style={{ background: "#1e1f23", border: "1px solid rgba(255,255,255,0.1)" }}
-        >
-          <div className="flex items-center gap-2 pl-2 pr-1">
-            <RobuxCoin size={22} />
-            <span style={{ fontSize: "17px", fontWeight: 800, letterSpacing: "-0.02em" }}>257</span>
-          </div>
-          <button
-            className="flex items-center gap-1.5 px-3 py-1.5 hover:brightness-125 transition-all"
-            style={{ borderRadius: "10px", background: "#2e3039", color: "#fff", fontSize: "14px", fontWeight: 700 }}
+        {/* Center: username + balance */}
+        <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center" style={{ lineHeight: 1.3 }}>
+          <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>Benxxyz</span>
+          <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.35)" }}>Balance: 257 Robux</span>
+        </div>
+
+        {/* Right: balance + send pill */}
+        <div className="flex items-center gap-2">
+          <div
+            className="flex items-center gap-2 select-none rounded-full px-2 py-1"
+            style={{ background: "#1e1f23", border: "1px solid rgba(255,255,255,0.1)" }}
           >
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-              <polyline points="17 8 12 3 7 8"/>
-              <line x1="12" y1="3" x2="12" y2="15"/>
-            </svg>
-            Send
-          </button>
+            <div className="flex items-center gap-1.5 pl-1 pr-1">
+              <RobuxCoin size={18} />
+              <span style={{ fontSize: "14px", fontWeight: 800, letterSpacing: "-0.02em" }}>257</span>
+            </div>
+            <button
+              className="flex items-center gap-1 px-2 py-1 hover:brightness-125 transition-all"
+              style={{ borderRadius: "10px", background: "#2e3039", color: "#fff", fontSize: "12px", fontWeight: 700 }}
+            >
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+              </svg>
+              Send
+            </button>
+          </div>
         </div>
       </div>
 
