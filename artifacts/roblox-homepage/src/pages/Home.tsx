@@ -205,7 +205,7 @@ export default function Home() {
       {/* Page content */}
       <main className="max-w-2xl mx-auto px-6 pt-4 pb-16">
 
-        {/* Faded curvy mesh background — upper-right */}
+        {/* Curvy mesh background image */}
         <div
           style={{
             position: "absolute",
@@ -213,51 +213,24 @@ export default function Home() {
             left: 0,
             right: 0,
             width: "100%",
-            height: "320px",
+            height: "340px",
             pointerEvents: "none",
             overflow: "hidden",
-            maskImage: `radial-gradient(ellipse 75% 55% at 50% 0%, black 0%, black 35%, rgba(0,0,0,0.4) 60%, transparent 100%)`,
-            WebkitMaskImage: `radial-gradient(ellipse 75% 55% at 50% 0%, black 0%, black 35%, rgba(0,0,0,0.4) 60%, transparent 100%)`,
           }}
         >
-          <svg
-            width="100%"
-            height="100%"
-            viewBox="0 0 560 320"
-            preserveAspectRatio="xMidYMid slice"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            {/* Horizontal wavy lines */}
-            {Array.from({ length: 26 }, (_, i) => {
-              const y = i * 13;
-              const amp = 7 + (i % 3) * 4;
-              const phase = (i % 2 === 0 ? 1 : -1);
-              return (
-                <path
-                  key={`h${i}`}
-                  d={`M -20 ${y} C 100 ${y + amp * phase} 220 ${y - amp * phase} 340 ${y + amp * phase} C 460 ${y - amp * phase} 540 ${y} 580 ${y}`}
-                  stroke="rgba(255,255,255,0.09)"
-                  strokeWidth="0.6"
-                  fill="none"
-                />
-              );
-            })}
-            {/* Vertical wavy lines */}
-            {Array.from({ length: 30 }, (_, i) => {
-              const x = i * 20;
-              const amp = 6 + (i % 3) * 3;
-              const phase = (i % 2 === 0 ? 1 : -1);
-              return (
-                <path
-                  key={`v${i}`}
-                  d={`M ${x} -10 C ${x + amp * phase} 70 ${x - amp * phase} 150 ${x + amp * phase} 230 C ${x - amp * phase} 290 ${x} 320 ${x} 340`}
-                  stroke="rgba(255,255,255,0.09)"
-                  strokeWidth="0.6"
-                  fill="none"
-                />
-              );
-            })}
-          </svg>
+          <img
+            src="/images/curvy-bg.png"
+            alt=""
+            aria-hidden="true"
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center top",
+              opacity: 0.55,
+              mixBlendMode: "screen",
+            }}
+          />
         </div>
 
         {/* Heading */}
