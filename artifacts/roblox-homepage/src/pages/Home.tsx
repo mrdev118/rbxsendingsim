@@ -206,13 +206,14 @@ export default function Home() {
           style={{
             position: "absolute",
             top: "70px",
+            left: 0,
             right: 0,
-            width: "55%",
+            width: "100%",
             height: "320px",
             pointerEvents: "none",
             overflow: "hidden",
-            maskImage: "radial-gradient(ellipse 85% 75% at 90% 10%, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%)",
-            WebkitMaskImage: "radial-gradient(ellipse 85% 75% at 90% 10%, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 100%)",
+            maskImage: "radial-gradient(ellipse 70% 75% at 50% 0%, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%)",
+            WebkitMaskImage: "radial-gradient(ellipse 70% 75% at 50% 0%, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%)",
           }}
         >
           <svg
