@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import robuxIconSrc from "@assets/image_1777751316017.png";
 
 const ROBUX_PACKAGES = [
   { id: 1, amount: 24000, oldAmount: 22500, bonus: 1500, price: "P11.49K" },
@@ -13,26 +14,13 @@ const ROBUX_PACKAGES = [
 
 function RobuxCoin({ size = 18 }: { size?: number }) {
   return (
-    <span
-      style={{
-        display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: size,
-        height: size,
-        borderRadius: "50%",
-        background: "#01b2af",
-        color: "#fff",
-        fontWeight: 900,
-        fontSize: size * 0.55,
-        fontFamily: "sans-serif",
-        flexShrink: 0,
-        lineHeight: 1,
-      }}
-      aria-hidden="true"
-    >
-      R
-    </span>
+    <img
+      src={robuxIconSrc}
+      alt="Robux"
+      width={size}
+      height={size}
+      style={{ flexShrink: 0, display: "inline-block" }}
+    />
   );
 }
 
