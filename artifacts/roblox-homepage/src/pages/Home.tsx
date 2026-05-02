@@ -154,32 +154,32 @@ export default function Home() {
         <div style={{ width: "24px" }} />
       </div>
 
+      {/* Balance + Send pill — fixed to very right of page */}
+      <div className="fixed select-none" style={{ top: "78px", right: "16px", zIndex: 50 }}>
+        <div
+          className="flex items-center gap-2 rounded-full px-2 py-1.5"
+          style={{ background: "#1e1f23", border: "1px solid rgba(255,255,255,0.1)" }}
+        >
+          <div className="flex items-center gap-1.5 pl-1 pr-1">
+            <RobuxCoin size={20} />
+            <span style={{ fontSize: "15px", fontWeight: 800, letterSpacing: "-0.02em" }}>257</span>
+          </div>
+          <button
+            className="flex items-center gap-1.5 px-3 py-1 hover:brightness-125 transition-all"
+            style={{ borderRadius: "10px", background: "#2e3039", color: "#fff", fontSize: "13px", fontWeight: 700 }}
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            Send
+          </button>
+        </div>
+      </div>
+
       {/* Page content */}
       <main className="max-w-2xl mx-auto px-6 pt-4 pb-16">
-
-        {/* Balance + Send pill — top right of page content */}
-        <div className="flex justify-end mb-4">
-          <div
-            className="flex items-center gap-2 select-none rounded-full px-2 py-1.5"
-            style={{ background: "#1e1f23", border: "1px solid rgba(255,255,255,0.1)" }}
-          >
-            <div className="flex items-center gap-1.5 pl-1 pr-1">
-              <RobuxCoin size={20} />
-              <span style={{ fontSize: "15px", fontWeight: 800, letterSpacing: "-0.02em" }}>257</span>
-            </div>
-            <button
-              className="flex items-center gap-1.5 px-3 py-1 hover:brightness-125 transition-all"
-              style={{ borderRadius: "10px", background: "#2e3039", color: "#fff", fontSize: "13px", fontWeight: 700 }}
-            >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                <polyline points="17 8 12 3 7 8"/>
-                <line x1="12" y1="3" x2="12" y2="15"/>
-              </svg>
-              Send
-            </button>
-          </div>
-        </div>
 
         {/* Heading */}
         <motion.h1
