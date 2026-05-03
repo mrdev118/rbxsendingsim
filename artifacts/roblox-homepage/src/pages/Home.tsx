@@ -35,11 +35,13 @@ function PackageRow({
   isFirst,
   selected,
   onSelect,
+  compact,
 }: {
   pkg: { id: number; amount: number; oldAmount: number; bonus: number; price: string };
   isFirst: boolean;
   selected: boolean;
   onSelect: () => void;
+  compact?: boolean;
 }) {
   return (
     <motion.button
@@ -48,56 +50,53 @@ function PackageRow({
       animate={{ opacity: 1 }}
       onClick={onSelect}
       data-testid={`row-package-${pkg.id}`}
-      className="w-full flex items-center justify-between px-5 py-4 text-left transition-colors"
+      className="w-full flex items-center justify-between text-left transition-colors"
       style={{
         background: "#191A1F",
         borderTop: isFirst ? "none" : "1px solid rgba(255,255,255,0.06)",
         outline: selected ? "2px solid rgba(255,255,255,0.15)" : "none",
         outlineOffset: "-2px",
+        padding: compact ? "12px 14px" : "16px 20px",
       }}
     >
-      <div className="flex items-center gap-3">
-        <RobuxCoin size={28} />
-        <span style={{ fontSize: "20px", fontWeight: 900 }}>
+      <div className="flex items-center" style={{ gap: compact ? "8px" : "12px", minWidth: 0 }}>
+        <RobuxCoin size={compact ? 22 : 28} />
+        <span style={{ fontSize: compact ? "16px" : "20px", fontWeight: 900, flexShrink: 0 }}>
           {pkg.amount.toLocaleString()}
         </span>
+        {!compact && (
+          <span style={{ fontSize: "16px", fontWeight: 500, textDecoration: "line-through", color: "rgba(255,255,255,0.3)", flexShrink: 0 }}>
+            {pkg.oldAmount.toLocaleString()}
+          </span>
+        )}
         <span
           style={{
-            fontSize: "16px",
-            fontWeight: 500,
-            textDecoration: "line-through",
-            color: "rgba(255,255,255,0.3)",
-          }}
-        >
-          {pkg.oldAmount.toLocaleString()}
-        </span>
-        <span
-          style={{
-            fontSize: "12px",
+            fontSize: compact ? "10px" : "12px",
             fontWeight: 600,
-            padding: "3px 10px",
+            padding: compact ? "2px 7px" : "3px 10px",
             borderRadius: "999px",
             background: "rgba(255,255,255,0.08)",
             color: "rgba(255,255,255,0.5)",
             whiteSpace: "nowrap",
+            flexShrink: 0,
           }}
         >
-          + {pkg.bonus.toLocaleString()} more
+          +{pkg.bonus.toLocaleString()}
         </span>
       </div>
 
       <span
         className="transition-all duration-150 hover:brightness-125"
         style={{
-          fontSize: "16px",
+          fontSize: compact ? "13px" : "16px",
           fontWeight: 700,
-          padding: "8px 0",
-          width: "160px",
+          padding: compact ? "7px 0" : "8px 0",
+          width: compact ? "110px" : "160px",
           borderRadius: "10px",
           background: "#2a2d38",
           color: "#fff",
           flexShrink: 0,
-          marginLeft: "16px",
+          marginLeft: compact ? "10px" : "16px",
           textAlign: "center",
           display: "inline-block",
           cursor: "pointer",
@@ -111,6 +110,14 @@ function PackageRow({
 }
 
 export default function Home() {
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 640);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 640);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   const [selected, setSelected] = useState<number | null>(null);
   const [balance, setBalance] = useState(257);
   const [justBought, setJustBought] = useState<number | null>(null);
@@ -182,10 +189,10 @@ export default function Home() {
       style={{ background: "#121215", fontFamily: "'Plus Jakarta Sans', sans-serif", position: "relative" }}
       data-testid="page-robux"
     >
-      {/* ── Windows title bar ── */}
+      {/* ── Windows title bar ── (desktop only) */}
       <div
         className="flex items-center justify-between select-none"
-        style={{ background: "#1f1f1f", height: "30px", borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+        style={{ background: "#1f1f1f", height: "30px", borderBottom: "1px solid rgba(255,255,255,0.05)", display: isMobile ? "none" : "flex" }}
         data-testid="titlebar"
       >
         <div className="flex items-center gap-1.5 px-3 h-full">
@@ -221,18 +228,18 @@ export default function Home() {
       </div>
 
       {/* Balance + Send pill — absolute on page, scrolls with content */}
-      <div className="select-none" style={{ position: "absolute", top: "78px", right: "60px", zIndex: 10 }}>
+      <div className="select-none" style={{ position: "absolute", top: isMobile ? "48px" : "78px", right: isMobile ? "12px" : "60px", zIndex: 10 }}>
         <div
           className="flex items-center gap-2 rounded-full px-3 py-2"
           style={{ background: "#1e1f23", border: "1px solid rgba(255,255,255,0.1)" }}
         >
           <div className="flex items-center gap-2 pl-1 pr-1">
-            <RobuxCoin size={24} />
-            <span style={{ fontSize: "18px", fontWeight: 800, letterSpacing: "-0.02em" }}>{balance.toLocaleString()}</span>
+            <RobuxCoin size={isMobile ? 18 : 24} />
+            <span style={{ fontSize: isMobile ? "14px" : "18px", fontWeight: 800, letterSpacing: "-0.02em" }}>{balance.toLocaleString()}</span>
           </div>
           <button
-            className="flex items-center gap-1.5 px-4 py-1.5 hover:brightness-125 transition-all"
-            style={{ borderRadius: "10px", background: "#2e3039", color: "#fff", fontSize: "14px", fontWeight: 700 }}
+            className="flex items-center gap-1.5 hover:brightness-125 transition-all"
+            style={{ borderRadius: "10px", background: "#2e3039", color: "#fff", fontSize: isMobile ? "12px" : "14px", fontWeight: 700, padding: isMobile ? "6px 12px" : "6px 16px" }}
             onClick={() => { setSendOpen(true); setSearchQuery(""); }}
           >
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -246,7 +253,7 @@ export default function Home() {
       </div>
 
       {/* Page content */}
-      <main className="max-w-2xl mx-auto px-6 pt-4 pb-16">
+      <main className="max-w-2xl mx-auto pb-16" style={{ paddingLeft: isMobile ? "16px" : "24px", paddingRight: isMobile ? "16px" : "24px", paddingTop: isMobile ? "8px" : "16px" }}>
 
         {/* Faded curvy mesh background */}
         <div
@@ -284,8 +291,8 @@ export default function Home() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="text-center leading-[1.1] mt-10 mb-16"
-          style={{ fontSize: "clamp(2.8rem, 6vw, 4rem)", fontWeight: 900, letterSpacing: "-0.01em" }}
+          className="text-center leading-[1.1]"
+          style={{ fontSize: isMobile ? "clamp(2rem, 9vw, 2.8rem)" : "clamp(2.8rem, 6vw, 4rem)", fontWeight: 900, letterSpacing: "-0.01em", marginTop: isMobile ? "52px" : "40px", marginBottom: isMobile ? "32px" : "64px" }}
           data-testid="heading-main"
         >
           Enjoy up to 25%<br />more Robux
@@ -316,6 +323,7 @@ export default function Home() {
                 isFirst={i === 0}
                 selected={selected === pkg.id}
                 onSelect={() => handleSelect(pkg.id)}
+                compact={isMobile}
               />
             ))}
           </div>
@@ -335,6 +343,7 @@ export default function Home() {
                 isFirst={i === 0}
                 selected={selected === pkg.id}
                 onSelect={() => handleSelect(pkg.id)}
+                compact={isMobile}
               />
             ))}
           </div>
