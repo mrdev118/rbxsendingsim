@@ -115,10 +115,30 @@ export default function Home() {
   const [balance, setBalance] = useState(257);
   const [justBought, setJustBought] = useState<number | null>(null);
   const [sendOpen, setSendOpen] = useState(false);
+  const [modalStep, setModalStep] = useState<"search" | "amount" | "confirm">("search");
+  const [selectedPlayer, setSelectedPlayer] = useState<{ id: number; name: string; displayName: string; avatarUrl?: string; mutualConnections: number; joinYear: number } | null>(null);
+  const [sendAmount, setSendAmount] = useState(200);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<{ id: number; name: string; displayName: string; avatarUrl?: string }[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const closeModal = () => {
+    setSendOpen(false);
+    setModalStep("search");
+    setSelectedPlayer(null);
+    setSendAmount(200);
+    setSearchQuery("");
+    setSearchResults([]);
+  };
+
+  const pickPlayer = (user: { id: number; name: string; displayName: string; avatarUrl?: string }) => {
+    const rand = Math.random();
+    const mutual = rand < 0.85 ? 0 : rand < 0.95 ? 1 : 2;
+    const joinYear = Math.floor(Math.random() * 14) + 2010;
+    setSelectedPlayer({ ...user, mutualConnections: mutual, joinYear });
+    setModalStep("amount");
+  };
 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -356,9 +376,10 @@ export default function Home() {
           exit={{ opacity: 0 }}
           className="fixed inset-0 flex items-center justify-center"
           style={{ zIndex: 100, background: "rgba(0,0,0,0.72)" }}
-          onClick={() => setSendOpen(false)}
+          onClick={closeModal}
         >
           <motion.div
+            key={modalStep}
             initial={{ opacity: 0, scale: 0.95, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95 }}
@@ -367,13 +388,13 @@ export default function Home() {
             style={{
               background: "#1a1b20",
               borderRadius: "14px",
-              width: "min(310px, 90vw)",
+              width: "min(320px, 90vw)",
               padding: "20px",
               boxShadow: "0 24px 60px rgba(0,0,0,0.6)",
               border: "1px solid rgba(255,255,255,0.07)",
             }}
           >
-            {/* Header */}
+            {/* Shared header */}
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2">
                 <RobuxCoin size={18} />
@@ -385,7 +406,7 @@ export default function Home() {
                   <span style={{ fontSize: "13px", fontWeight: 700 }}>{balance.toLocaleString()}</span>
                 </div>
                 <button
-                  onClick={() => setSendOpen(false)}
+                  onClick={closeModal}
                   className="flex items-center justify-center hover:opacity-70 transition-opacity"
                   style={{ color: "rgba(255,255,255,0.5)", fontSize: "16px", lineHeight: 1 }}
                   aria-label="Close"
@@ -395,55 +416,201 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Search */}
-            <p style={{ fontSize: "12px", fontWeight: 600, color: "rgba(255,255,255,0.7)", marginBottom: "8px" }}>
-              Search by username
-            </p>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              placeholder="Search username"
-              autoFocus
-              style={{
-                width: "100%",
-                background: "#25262d",
-                border: "1px solid rgba(255,255,255,0.1)",
-                borderRadius: "8px",
-                padding: "10px 12px",
-                color: "#fff",
-                fontSize: "13px",
-                outline: "none",
-              }}
-            />
-            {/* Results */}
-            <div style={{ minHeight: "120px", marginTop: "6px" }}>
-              {searchLoading && (
-                <div style={{ padding: "20px 0", textAlign: "center", color: "rgba(255,255,255,0.3)", fontSize: "12px" }}>Searching...</div>
-              )}
-              {!searchLoading && searchQuery.trim() && searchResults.length === 0 && (
-                <div style={{ padding: "20px 0", textAlign: "center", color: "rgba(255,255,255,0.3)", fontSize: "12px" }}>No players found</div>
-              )}
-              {!searchLoading && searchResults.map((user, i) => (
-                <div
-                  key={user.id}
-                  className="flex items-center gap-3 px-2 py-2.5 rounded-lg hover:bg-white/5 cursor-pointer transition-colors"
-                  style={{ borderTop: i > 0 ? "1px solid rgba(255,255,255,0.05)" : "none" }}
-                >
-                  {user.avatarUrl ? (
-                    <img src={user.avatarUrl} alt={user.name} style={{ width: 36, height: 36, borderRadius: "50%", flexShrink: 0, background: "#2a2d38" }} />
+            {/* ── STEP: search ── */}
+            {modalStep === "search" && (
+              <>
+                <p style={{ fontSize: "12px", fontWeight: 600, color: "rgba(255,255,255,0.7)", marginBottom: "8px" }}>
+                  Search by username
+                </p>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                  placeholder="Search username"
+                  autoFocus
+                  style={{
+                    width: "100%",
+                    background: "#25262d",
+                    border: "1px solid rgba(255,255,255,0.1)",
+                    borderRadius: "8px",
+                    padding: "10px 12px",
+                    color: "#fff",
+                    fontSize: "13px",
+                    outline: "none",
+                  }}
+                />
+                <div style={{ minHeight: "120px", marginTop: "6px" }}>
+                  {searchLoading && (
+                    <div style={{ padding: "20px 0", textAlign: "center", color: "rgba(255,255,255,0.3)", fontSize: "12px" }}>Searching...</div>
+                  )}
+                  {!searchLoading && searchQuery.trim() && searchResults.length === 0 && (
+                    <div style={{ padding: "20px 0", textAlign: "center", color: "rgba(255,255,255,0.3)", fontSize: "12px" }}>No players found</div>
+                  )}
+                  {!searchLoading && searchResults.map((user, i) => (
+                    <div
+                      key={user.id}
+                      onClick={() => pickPlayer(user)}
+                      className="flex items-center gap-3 px-2 py-2.5 rounded-lg hover:bg-white/5 cursor-pointer transition-colors"
+                      style={{ borderTop: i > 0 ? "1px solid rgba(255,255,255,0.05)" : "none" }}
+                    >
+                      {user.avatarUrl ? (
+                        <img src={user.avatarUrl} alt={user.name} style={{ width: 36, height: 36, borderRadius: "50%", flexShrink: 0, background: "#2a2d38" }} />
+                      ) : (
+                        <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#2a2d38", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: 700 }}>
+                          {user.displayName[0]}
+                        </div>
+                      )}
+                      <div>
+                        <div style={{ fontSize: "13px", fontWeight: 700, lineHeight: 1.3 }}>{user.displayName}</div>
+                        <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.45)", lineHeight: 1.3 }}>@{user.name}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {/* ── STEP: amount picker ── */}
+            {modalStep === "amount" && selectedPlayer && (
+              <div style={{ textAlign: "center" }}>
+                {/* Avatar */}
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: "12px" }}>
+                  {selectedPlayer.avatarUrl ? (
+                    <img src={selectedPlayer.avatarUrl} alt={selectedPlayer.name} style={{ width: 72, height: 72, borderRadius: "50%", background: "#2a2d38" }} />
                   ) : (
-                    <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#2a2d38", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: 700 }}>
-                      {user.displayName[0]}
+                    <div style={{ width: 72, height: 72, borderRadius: "50%", background: "#2a2d38", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "28px", fontWeight: 700 }}>
+                      {selectedPlayer.displayName[0]}
                     </div>
                   )}
-                  <div>
-                    <div style={{ fontSize: "13px", fontWeight: 700, lineHeight: 1.3 }}>{user.displayName}</div>
-                    <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.45)", lineHeight: 1.3 }}>@{user.name}</div>
+                </div>
+                <div style={{ fontSize: "16px", fontWeight: 800, marginBottom: "16px" }}>{selectedPlayer.displayName}</div>
+
+                {/* Big amount display */}
+                <div className="flex items-center justify-center gap-2" style={{ marginBottom: "20px" }}>
+                  <RobuxCoin size={32} />
+                  <span style={{ fontSize: "40px", fontWeight: 900, letterSpacing: "-1px" }}>{sendAmount}</span>
+                </div>
+
+                {/* Amount pills */}
+                <div className="flex justify-center gap-2" style={{ marginBottom: "20px" }}>
+                  {[25, 50, 100, 200].map(amt => (
+                    <button
+                      key={amt}
+                      onClick={() => setSendAmount(amt)}
+                      className="flex items-center gap-1 transition-all"
+                      style={{
+                        padding: "8px 12px",
+                        borderRadius: "8px",
+                        background: sendAmount === amt ? "transparent" : "#25262d",
+                        border: sendAmount === amt ? "2px solid #fff" : "2px solid transparent",
+                        color: "#fff",
+                        fontSize: "13px",
+                        fontWeight: 700,
+                        cursor: "pointer",
+                      }}
+                    >
+                      <RobuxCoin size={13} />
+                      {amt}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Next button */}
+                <button
+                  onClick={() => setModalStep("confirm")}
+                  style={{
+                    width: "100%",
+                    padding: "13px",
+                    borderRadius: "8px",
+                    background: "#2563eb",
+                    color: "#fff",
+                    fontSize: "15px",
+                    fontWeight: 800,
+                    cursor: "pointer",
+                    border: "none",
+                    marginBottom: "10px",
+                  }}
+                >
+                  Next
+                </button>
+                <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)" }}>Robux are sent instantly with no fees</div>
+              </div>
+            )}
+
+            {/* ── STEP: confirm ── */}
+            {modalStep === "confirm" && selectedPlayer && (
+              <div style={{ textAlign: "center" }}>
+                {/* Avatar */}
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}>
+                  {selectedPlayer.avatarUrl ? (
+                    <img src={selectedPlayer.avatarUrl} alt={selectedPlayer.name} style={{ width: 72, height: 72, borderRadius: "50%", background: "#2a2d38" }} />
+                  ) : (
+                    <div style={{ width: 72, height: 72, borderRadius: "50%", background: "#2a2d38", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "28px", fontWeight: 700 }}>
+                      {selectedPlayer.displayName[0]}
+                    </div>
+                  )}
+                </div>
+                <div style={{ fontSize: "15px", fontWeight: 800, marginBottom: "2px" }}>{selectedPlayer.displayName}</div>
+                <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.45)", marginBottom: "14px" }}>@{selectedPlayer.name}</div>
+
+                {/* Meta info */}
+                <div style={{ marginBottom: "18px" }}>
+                  <div className="flex items-center justify-center gap-1.5" style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", marginBottom: "5px" }}>
+                    <span>👥</span>
+                    <span>{selectedPlayer.mutualConnections} mutual Connection{selectedPlayer.mutualConnections !== 1 ? "s" : ""}</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-1.5" style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)" }}>
+                    <span>🕐</span>
+                    <span>Joined in {selectedPlayer.joinYear}</span>
                   </div>
                 </div>
-              ))}
-            </div>
+
+                {/* Big amount */}
+                <div className="flex items-center justify-center gap-2" style={{ marginBottom: "20px" }}>
+                  <RobuxCoin size={28} />
+                  <span style={{ fontSize: "38px", fontWeight: 900, letterSpacing: "-1px" }}>{sendAmount}</span>
+                </div>
+
+                {/* Send + Edit buttons */}
+                <div className="flex gap-2" style={{ marginBottom: "10px" }}>
+                  <button
+                    onClick={closeModal}
+                    style={{
+                      flex: 2,
+                      padding: "12px",
+                      borderRadius: "8px",
+                      background: "#2563eb",
+                      color: "#fff",
+                      fontSize: "15px",
+                      fontWeight: 800,
+                      cursor: "pointer",
+                      border: "none",
+                    }}
+                  >
+                    Send
+                  </button>
+                  <button
+                    onClick={() => setModalStep("amount")}
+                    style={{
+                      flex: 1,
+                      padding: "12px",
+                      borderRadius: "8px",
+                      background: "#25262d",
+                      color: "rgba(255,255,255,0.75)",
+                      fontSize: "14px",
+                      fontWeight: 700,
+                      cursor: "pointer",
+                      border: "1px solid rgba(255,255,255,0.1)",
+                    }}
+                  >
+                    Edit
+                  </button>
+                </div>
+                <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.25)", lineHeight: 1.5 }}>
+                  You may need an age check in games/an account to send Robux. Once you send, you cannot get it back.
+                </div>
+              </div>
+            )}
           </motion.div>
         </motion.div>
       )}
