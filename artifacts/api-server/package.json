@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "export NODE_ENV=development && pnpm run build && pnpm run start",
-    "build": "pnpm install --workspace-root --prod=false && pnpm --filter @workspace/roblox-homepage install --prod=false && pnpm --filter @workspace/roblox-homepage build && node ./build.mjs",
+    "build": "pnpm install --workspace-root --prod=false && pnpm --filter @workspace/roblox-homepage install --prod=false && pnpm --filter @workspace/roblox-homepage build && pnpm --filter @workspace/api-server install --prod=false && node ./build.mjs",
     "start": "node --enable-source-maps ./dist/index.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
