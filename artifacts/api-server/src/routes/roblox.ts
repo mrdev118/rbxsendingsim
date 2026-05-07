@@ -10,11 +10,14 @@ router.get("/roblox/search", async (req, res) => {
   }
   try {
     const r = await fetch(
-      `https://users.roblox.com/v1/users/search?keyword=${encodeURIComponent(q)}&limit=3`,
+      // Roblox API requires limit to be one of [10,25,50,100]. Request 10 and trim locally.
+      `https://users.roblox.com/v1/users/search?keyword=${encodeURIComponent(q)}&limit=10`,
       { headers: { "Accept": "application/json" } }
     );
     const json = await r.json() as { data?: unknown[] };
-    res.json({ data: json.data ?? [] });
+    // upstream returns up to 10; return first 3 to the client for the UI
+    const data = (json.data ?? []).slice(0, 3);
+    res.json({ data });
   } catch {
     res.status(502).json({ data: [], error: "upstream_error" });
   }
@@ -38,4 +41,25 @@ router.get("/roblox/avatars", async (req, res) => {
   }
 });
 
+router.get("/roblox/user", async (req, res) => {
+  const id = String(req.query["id"] ?? "").trim();
+  if (!id) {
+    res.json({ data: null });
+    return;
+  }
+  try {
+    const r = await fetch(`https://users.roblox.com/v1/users/${encodeURIComponent(id)}`, { headers: { "Accept": "application/json" } });
+    if (!r.ok) {
+      res.status(502).json({ data: null, error: "upstream_error" });
+      return;
+    }
+    const json = await r.json() as Record<string, unknown>;
+    // return the raw user object (includes created date when available)
+    res.json({ data: json });
+  } catch {
+    res.status(502).json({ data: null, error: "upstream_error" });
+  }
+});
+
 export default router;
+

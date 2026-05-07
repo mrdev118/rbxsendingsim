@@ -1,8 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo, memo } from "react";
 import { motion } from "framer-motion";
 import robuxIconSrc from "@assets/8ab2a18d6e954f6b10bad7c36d0ce231-removebg-preview_1777752219611.png";
 import bonusCardSrc from "@assets/image_1777752547366.png";
 import robloxLogoSrc from "@assets/ODF_1777754484560.png";
+
+const API_BASE = (import.meta as any)?.env?.VITE_API_BASE ?? "";
 
 const PREMIUM_PACKAGES = [
   { id: 1, amount: 24000, oldAmount: 22500, bonus: 1500, price: "P11.49K" },
@@ -18,7 +20,9 @@ const BASIC_PACKAGES = [
   { id: 8, amount: 500,  oldAmount: 400,  bonus: 100, price: "P269.00" },
 ];
 
-function RobuxCoin({ size = 20 }: { size?: number }) {
+const AMOUNT_OPTIONS = [25, 50, 100, 200, 1000];
+
+const RobuxCoin = memo(function RobuxCoin({ size = 20 }: { size?: number }) {
   return (
     <img
       src={robuxIconSrc}
@@ -26,11 +30,12 @@ function RobuxCoin({ size = 20 }: { size?: number }) {
       width={size}
       height={size}
       style={{ flexShrink: 0, display: "inline-block" }}
+      loading="lazy"
     />
   );
-}
+});
 
-function PackageRow({
+const PackageRow = memo(function PackageRow({
   pkg,
   isFirst,
   selected,
@@ -107,7 +112,7 @@ function PackageRow({
       </span>
     </motion.button>
   );
-}
+});
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 640);
@@ -119,16 +124,25 @@ export default function Home() {
   }, []);
 
   const [selected, setSelected] = useState<number | null>(null);
-  const [balance, setBalance] = useState(257);
+  const [balance, setBalance] = useState(() => {
+    try {
+      const raw = localStorage.getItem("rbx:balance");
+      return raw ? Number(raw) : 257;
+    } catch {
+      return 257;
+    }
+  });
   const [justBought, setJustBought] = useState<number | null>(null);
   const [sendOpen, setSendOpen] = useState(false);
   const [modalStep, setModalStep] = useState<"search" | "amount" | "confirm">("search");
-  const [selectedPlayer, setSelectedPlayer] = useState<{ id: number; name: string; displayName: string; avatarUrl?: string; mutualConnections: number; joinYear: number } | null>(null);
+  const [selectedPlayer, setSelectedPlayer] = useState<{ id: number; name: string; displayName: string; avatarUrl?: string; mutualConnections: number; joinDate?: string } | null>(null);
   const [sendAmount, setSendAmount] = useState(200);
+  const [sendError, setSendError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<{ id: number; name: string; displayName: string; avatarUrl?: string }[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fetchControllerRef = useRef<AbortController | null>(null);
 
   const closeModal = () => {
     setSendOpen(false);
@@ -137,13 +151,36 @@ export default function Home() {
     setSendAmount(200);
     setSearchQuery("");
     setSearchResults([]);
+    if (debounceRef.current) { clearTimeout(debounceRef.current); debounceRef.current = null; }
+    if (fetchControllerRef.current) { fetchControllerRef.current.abort(); fetchControllerRef.current = null; }
   };
 
-  const pickPlayer = (user: { id: number; name: string; displayName: string; avatarUrl?: string }) => {
+  const pickPlayer = async (user: { id: number; name: string; displayName: string; avatarUrl?: string }) => {
+    // determine mutual connections heuristically
     const rand = Math.random();
     const mutual = rand < 0.85 ? 0 : rand < 0.95 ? 1 : 2;
-    const joinYear = Math.floor(Math.random() * 14) + 2010;
-    setSelectedPlayer({ ...user, mutualConnections: mutual, joinYear });
+
+    // fetch official user details (created/join date)
+    try {
+      // try up to 3 times to fetch official user details (some upstream calls may intermittently omit fields)
+      let created: string | undefined = undefined;
+      for (let attempt = 0; attempt < 3; attempt++) {
+        const res = await fetch(`${API_BASE}/api/roblox/user?id=${encodeURIComponent(String(user.id))}`, { cache: "no-store" });
+        if (res.ok) {
+          const json = await res.json() as { data?: { created?: string } };
+          if (json.data && json.data.created) {
+            created = json.data.created;
+            break;
+          }
+        }
+        // small backoff
+        await new Promise(r => setTimeout(r, 150 * (attempt + 1)));
+      }
+      setSelectedPlayer({ ...user, mutualConnections: mutual, joinDate: created });
+    } catch {
+      setSelectedPlayer({ ...user, mutualConnections: mutual });
+    }
+
     setModalStep("amount");
   };
 
@@ -152,28 +189,46 @@ export default function Home() {
     if (!searchQuery.trim()) { setSearchResults([]); return; }
     debounceRef.current = setTimeout(async () => {
       setSearchLoading(true);
+      // abort any in-flight fetch
+      if (fetchControllerRef.current) { fetchControllerRef.current.abort(); fetchControllerRef.current = null; }
+      const controller = new AbortController();
+      fetchControllerRef.current = controller;
       try {
-        const res = await fetch(`/api/roblox/search?q=${encodeURIComponent(searchQuery)}`);
+        const res = await fetch(`${API_BASE}/api/roblox/search?q=${encodeURIComponent(searchQuery)}`, { cache: "no-store", signal: controller.signal });
+        if (!res.ok) { setSearchResults([]); setSearchLoading(false); return; }
         const json = await res.json() as { data: { id: number; name: string; displayName: string }[] };
         const users = (json.data ?? []).slice(0, 3);
         if (users.length === 0) { setSearchResults([]); setSearchLoading(false); return; }
         const ids = users.map(u => u.id).join(",");
-        const avatarRes = await fetch(`/api/roblox/avatars?userIds=${encodeURIComponent(ids)}`);
-        const avatarJson = await avatarRes.json() as { data: { targetId: number; imageUrl: string }[] };
+        const avatarRes = await fetch(`${API_BASE}/api/roblox/avatars?userIds=${encodeURIComponent(ids)}`, { cache: "no-store", signal: controller.signal });
+        let avatarJson: { data: { targetId: number; imageUrl: string }[] } = { data: [] };
+        if (avatarRes.ok) {
+          avatarJson = await avatarRes.json() as { data: { targetId: number; imageUrl: string }[] };
+        }
         const avatarMap = Object.fromEntries((avatarJson.data ?? []).map(a => [a.targetId, a.imageUrl]));
         setSearchResults(users.map(u => ({ ...u, avatarUrl: avatarMap[u.id] })));
-      } catch { setSearchResults([]); }
-      setSearchLoading(false);
+      } catch (err) {
+        if ((err as any)?.name === 'AbortError') {
+          // aborted - do nothing
+        } else {
+          setSearchResults([]);
+        }
+      } finally {
+        setSearchLoading(false);
+        if (fetchControllerRef.current === controller) fetchControllerRef.current = null;
+      }
     }, 350);
   }, [searchQuery]);
 
-  const ALL_PACKAGES = [...PREMIUM_PACKAGES, ...BASIC_PACKAGES];
+  const ALL_PACKAGES = useMemo(() => [...PREMIUM_PACKAGES, ...BASIC_PACKAGES], []);
 
-  const handleSelect = (id: number) => {
+  const onPickAmount = useCallback((amt: number) => setSendAmount(amt), []);
+
+  const handleSelect = useCallback((id: number) => {
     setSelected(prev => (prev === id ? null : id));
-  };
+  }, []);
 
-  const handleBuy = () => {
+  const handleBuy = useCallback(() => {
     if (selected === null) return;
     const pkg = ALL_PACKAGES.find(p => p.id === selected);
     if (!pkg) return;
@@ -181,7 +236,18 @@ export default function Home() {
     setJustBought(pkg.id);
     setSelected(null);
     setTimeout(() => setJustBought(null), 1500);
-  };
+  }, [selected, ALL_PACKAGES]);
+
+  
+
+  // persist balance to localStorage whenever it changes
+  useEffect(() => {
+    try {
+      localStorage.setItem("rbx:balance", String(balance));
+    } catch {
+      // ignore
+    }
+  }, [balance]);
 
   return (
     <div
@@ -189,6 +255,12 @@ export default function Home() {
       style={{ background: "#121215", fontFamily: "'Plus Jakarta Sans', sans-serif", position: "relative" }}
       data-testid="page-robux"
     >
+      <style>{`.amount-scrollbar { scrollbar-color: rgba(255,255,255,0.06) transparent; }
+    .amount-scrollbar::-webkit-scrollbar { height: 8px; }
+    .amount-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .amount-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 999px; }
+    .amount-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.12); }`}</style>
+
       {/* ── Windows title bar ── (desktop only) */}
       <div
         className="flex items-center justify-between select-none"
@@ -500,28 +572,32 @@ export default function Home() {
                   <span style={{ fontSize: "40px", fontWeight: 900, letterSpacing: "-1px" }}>{sendAmount}</span>
                 </div>
 
-                {/* Amount pills */}
-                <div className="flex justify-center gap-2" style={{ marginBottom: "20px" }}>
-                  {[25, 50, 100, 200].map(amt => (
-                    <button
-                      key={amt}
-                      onClick={() => setSendAmount(amt)}
-                      className="flex items-center gap-1 transition-all"
-                      style={{
-                        padding: "8px 12px",
-                        borderRadius: "8px",
-                        background: sendAmount === amt ? "transparent" : "#25262d",
-                        border: sendAmount === amt ? "2px solid #fff" : "2px solid transparent",
-                        color: "#fff",
-                        fontSize: "13px",
-                        fontWeight: 700,
-                        cursor: "pointer",
-                      }}
-                    >
-                      <RobuxCoin size={13} />
-                      {amt}
-                    </button>
-                  ))}
+                {/* Amount pills (horizontally scrollable to fit larger options) */}
+                <div className="amount-scrollbar" style={{ marginBottom: "20px", overflowX: "auto", paddingBottom: 6 }}>
+                  <div className="flex gap-2" style={{ minWidth: 0, padding: "4px 6px" }}>
+                    {AMOUNT_OPTIONS.map(amt => (
+                      <button
+                        key={amt}
+                        onClick={() => onPickAmount(amt)}
+                        className="flex items-center gap-1 transition-all"
+                        style={{
+                          flex: "0 0 auto",
+                          padding: "8px 12px",
+                          minWidth: 64,
+                          borderRadius: "10px",
+                          background: sendAmount === amt ? "#2a2d38" : "#25262d",
+                          border: sendAmount === amt ? "2px solid rgba(255,255,255,0.06)" : "2px solid transparent",
+                          color: "#fff",
+                          fontSize: "13px",
+                          fontWeight: 700,
+                          cursor: "pointer",
+                        }}
+                      >
+                        <RobuxCoin size={13} />
+                        {amt}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Next button */}
@@ -570,7 +646,7 @@ export default function Home() {
                   </div>
                   <div className="flex items-center justify-center gap-1.5" style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)" }}>
                     <span>🕐</span>
-                    <span>Joined in {selectedPlayer.joinYear}</span>
+                    <span>Joined in {selectedPlayer.joinDate ? new Date(selectedPlayer.joinDate).getFullYear() : "unknown"}</span>
                   </div>
                 </div>
 
@@ -583,7 +659,22 @@ export default function Home() {
                 {/* Send + Edit buttons */}
                 <div className="flex gap-2" style={{ marginBottom: "10px" }}>
                   <button
-                    onClick={closeModal}
+                    onClick={() => {
+                      // perform send: simple client-side deduction + basic validation
+                      setSendError(null);
+                      if (sendAmount <= 0) return;
+                      if (sendAmount > balance) {
+                        setSendError("Insufficient balance");
+                        return;
+                      }
+                      setBalance(prev => prev - sendAmount);
+                      // reset modal state
+                      setSelectedPlayer(null);
+                      setSendAmount(200);
+                      setSearchQuery("");
+                      setSearchResults([]);
+                      setSendOpen(false);
+                    }}
                     style={{
                       flex: 2,
                       padding: "12px",
@@ -598,6 +689,9 @@ export default function Home() {
                   >
                     Send
                   </button>
+                  {sendError && (
+                    <div style={{ color: "#ff6b6b", fontSize: "12px", marginLeft: "8px", alignSelf: "center" }}>{sendError}</div>
+                  )}
                   <button
                     onClick={() => setModalStep("amount")}
                     style={{

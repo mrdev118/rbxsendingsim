@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Spotify Temp Downloader</title>
+    <style>
+      body { font-family: system-ui, Arial; max-width: 900px; margin: 40px auto; padding: 0 16px; }
+      input, button { padding: 8px; font-size: 14px }
+      .file { margin: 4px 0 }
+    </style>
+  </head>
+  <body>
+    <h1>Spotify Temp Downloader (AAC 320)</h1>
+    <p>Enter a Spotify playlist/album/track URL or ID. Optionally paste a RapidAPI key.</p>
+    <div>
+      <input id="input" style="width:70%" placeholder="https://open.spotify.com/playlist/..." />
+      <input id="apikey" style="width:28%" placeholder="RapidAPI key" value="3e8c32280amshfe3d788eb207b51p10b48fjsnccdeeb6fce2a" />
+    </div>
+    <div style="margin-top:12px">
+      <button id="prepare">Load songs (single resource)</button>
+      <button id="downloadAll" disabled>Download All (ZIP)</button>
+    </div>
+
+    <hr />
+    <h3>Or paste track URLs/IDs (one per line)</h3>
+    <textarea id="tracks" rows="6" style="width:100%" placeholder="https://open.spotify.com/track/... or track_id"></textarea>
+    <div style="margin-top:12px">
+      <button id="prepareTracks">Prepare Tracks (download & zip)</button>
+      <button id="downloadTracksAll" disabled>Download Tracks ZIP</button>
+    </div>
+
+    <h3 id="status"></h3>
+    <div id="files"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
